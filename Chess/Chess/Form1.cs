@@ -184,5 +184,10 @@ namespace Chess
             Graphics g = GameBoard.CreateGraphics();
             DrawHighlight(e.X, e.Y, 0, 128, 0, 128, g);
         }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            GameBoard.Refresh();
+        }
     }
 }

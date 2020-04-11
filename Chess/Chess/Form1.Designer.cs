@@ -35,9 +35,10 @@
             // 
             // SurrenderButton
             // 
-            this.SurrenderButton.Location = new System.Drawing.Point(1062, 12);
+            this.SurrenderButton.Location = new System.Drawing.Point(2124, 23);
+            this.SurrenderButton.Margin = new System.Windows.Forms.Padding(6);
             this.SurrenderButton.Name = "SurrenderButton";
-            this.SurrenderButton.Size = new System.Drawing.Size(75, 23);
+            this.SurrenderButton.Size = new System.Drawing.Size(150, 44);
             this.SurrenderButton.TabIndex = 0;
             this.SurrenderButton.Text = "Surrender";
             this.SurrenderButton.UseVisualStyleBackColor = true;
@@ -45,9 +46,10 @@
             // GameBoard
             // 
             this.GameBoard.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.GameBoard.Location = new System.Drawing.Point(12, 12);
+            this.GameBoard.Location = new System.Drawing.Point(24, 23);
+            this.GameBoard.Margin = new System.Windows.Forms.Padding(6);
             this.GameBoard.Name = "GameBoard";
-            this.GameBoard.Size = new System.Drawing.Size(1024, 1024);
+            this.GameBoard.Size = new System.Drawing.Size(2048, 1969);
             this.GameBoard.TabIndex = 1;
             this.GameBoard.TabStop = false;
             this.GameBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.Board_Paint);
@@ -55,13 +57,15 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1149, 1052);
+            this.ClientSize = new System.Drawing.Size(2170, 1743);
             this.Controls.Add(this.GameBoard);
             this.Controls.Add(this.SurrenderButton);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "Form1";
             this.Text = "Chess";
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.GameBoard)).EndInit();
             this.ResumeLayout(false);
 
