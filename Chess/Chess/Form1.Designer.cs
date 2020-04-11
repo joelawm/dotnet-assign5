@@ -35,7 +35,7 @@
             // 
             // SurrenderButton
             // 
-            this.SurrenderButton.Location = new System.Drawing.Point(2124, 23);
+            this.SurrenderButton.Location = new System.Drawing.Point(1699, 32);
             this.SurrenderButton.Margin = new System.Windows.Forms.Padding(6);
             this.SurrenderButton.Name = "SurrenderButton";
             this.SurrenderButton.Size = new System.Drawing.Size(150, 44);
@@ -46,10 +46,10 @@
             // GameBoard
             // 
             this.GameBoard.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.GameBoard.Location = new System.Drawing.Point(24, 23);
+            this.GameBoard.Location = new System.Drawing.Point(-4, 1);
             this.GameBoard.Margin = new System.Windows.Forms.Padding(6);
             this.GameBoard.Name = "GameBoard";
-            this.GameBoard.Size = new System.Drawing.Size(2048, 1969);
+            this.GameBoard.Size = new System.Drawing.Size(1680, 1609);
             this.GameBoard.TabIndex = 1;
             this.GameBoard.TabStop = false;
             this.GameBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.Board_Paint);
@@ -59,7 +59,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2170, 1743);
+            this.ClientSize = new System.Drawing.Size(1915, 1609);
             this.Controls.Add(this.GameBoard);
             this.Controls.Add(this.SurrenderButton);
             this.Margin = new System.Windows.Forms.Padding(6);
