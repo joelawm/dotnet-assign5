@@ -17,6 +17,7 @@ namespace Chess
         static Point LIMINT = new Point(840, 840);
         static int BoardSquareLength = 105; //each square on the board is 128x128 pixels
         static HashSet<Point> BOARD_COORDINATE = new HashSet<Point>();
+        static Dictionary<Point, Piece> PIECES_CORRDINATE = new Dictionary<Point, Piece>();
         List<Piece> player1 = new List<Piece>(); //2 list for each players pieces left
         List<Piece> player2 = new List<Piece>();
         int x1 = -1; //this is horrible code, but its late, this is to hold the mouse input on where it clicked
@@ -29,6 +30,55 @@ namespace Chess
         {
             InitializeComponent();
             BuildBoardCoordinate();
+            PiecesCoordinateInit();
+        }
+
+        private void PiecesCoordinateInit()
+        {
+
+            foreach (var coord in BOARD_COORDINATE)
+            {
+                switch (coord.Y) 
+                {
+                    case 105: PIECES_CORRDINATE.Add(coord, new Pawn(0)); break;
+                    case 630: PIECES_CORRDINATE.Add(coord, new Pawn(1)); break;
+                    case 0: 
+                        {
+                            switch (coord.Y)
+                            {
+                                case 0: PIECES_CORRDINATE.Add(coord, new Rook(0)); break;
+                                case 105: PIECES_CORRDINATE.Add(coord, new Knight(0)); break;
+                                case 210: PIECES_CORRDINATE.Add(coord, new Bishop(0)); break;
+                                case 315: PIECES_CORRDINATE.Add(coord, new King(0)); break;
+                                case 420: PIECES_CORRDINATE.Add(coord, new Queen(0)); break;
+                                case 525: PIECES_CORRDINATE.Add(coord, new Bishop(0)); break;
+                                case 630: PIECES_CORRDINATE.Add(coord, new Knight(0)); break;
+                                case 735: PIECES_CORRDINATE.Add(coord, new Rook(0)); break;
+                                default:
+                                    break;
+                            }
+                        } break;
+                    case 735:
+                        {
+                            switch (coord.Y)
+                            {
+                                case 0: PIECES_CORRDINATE.Add(coord, new Rook(1)); break;
+                                case 105: PIECES_CORRDINATE.Add(coord, new Knight(1)); break;
+                                case 210: PIECES_CORRDINATE.Add(coord, new Bishop(1)); break;
+                                case 315: PIECES_CORRDINATE.Add(coord, new King(1)); break;
+                                case 420: PIECES_CORRDINATE.Add(coord, new Queen(1)); break;
+                                case 525: PIECES_CORRDINATE.Add(coord, new Bishop(1)); break;
+                                case 630: PIECES_CORRDINATE.Add(coord, new Knight(1)); break;
+                                case 735: PIECES_CORRDINATE.Add(coord, new Rook(1)); break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         private void BuildBoardCoordinate()

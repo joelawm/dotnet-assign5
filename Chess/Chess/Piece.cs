@@ -8,5 +8,13 @@ namespace Chess
 {
     class Piece
     {
+        private readonly int side;
+
+        public Piece(int side)
+        {
+            this.side = side;
+        }
+
+        public int Side => side;
     }
 }
