@@ -17,10 +17,6 @@ namespace Chess
         static Point LIMINT = new Point(840, 840);
         static int BoardSquareLength = 105; //each square on the board is 128x128 pixels
         static HashSet<Point> BOARD_COORDINATE = new HashSet<Point>();
-        static List<Color> COLORS = new List<Color>();
-        System.Drawing.SolidBrush WhiteBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
-        System.Drawing.SolidBrush BlackBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
-        static int offset = 0;
         List<Piece> player1 = new List<Piece>(); //2 list for each players pieces left
         List<Piece> player2 = new List<Piece>();
         int x1 = -1; //this is horrible code, but its late, this is to hold the mouse input on where it clicked
@@ -33,13 +29,6 @@ namespace Chess
         {
             InitializeComponent();
             BuildBoardCoordinate();
-            BoardColorInit();
-        }
-
-        private void BoardColorInit()
-        {
-            COLORS.Add(Color.White);
-            COLORS.Add(Color.Black);
         }
 
         private void BuildBoardCoordinate()
