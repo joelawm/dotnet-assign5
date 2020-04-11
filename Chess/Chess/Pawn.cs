@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
-    class Pawn
+    class Pawn : Piece
     {
+        public Pawn(int side) : base(side) { }
     }
 }
