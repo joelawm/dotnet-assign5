@@ -9,6 +9,12 @@ namespace Chess
 {
     class Pawn : Piece
     {
-        public Pawn(int side, Point coord) : base(side, coord) { }
+        private readonly Type type;
+        public Pawn(int side, Point coord) : base(side, coord)
+        {
+            type = Type.Pawn;
+        }
+
+        public Type Type => type;
     }
 }

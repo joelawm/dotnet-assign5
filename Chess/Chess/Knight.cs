@@ -9,6 +9,12 @@ namespace Chess
 {
     class Knight:Piece
     {
-        public Knight(int side, Point coord) : base(side, coord) { }
+        private readonly Type type;
+        public Knight(int side, Point coord) : base(side, coord)
+        {
+            type = Type.Knight;
+        }
+
+        public Type Type => type;
     }
 }

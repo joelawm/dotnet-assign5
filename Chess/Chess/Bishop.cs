@@ -9,6 +9,12 @@ namespace Chess
 {
     class Bishop:Piece
     {
-        public Bishop(int side, Point coord) : base(side, coord) { }
+        private readonly Type type;
+        public Bishop(int side, Point coord) : base(side, coord) 
+        {
+            type = Type.Bishop;
+        }
+
+        public Type Type => type;
     }
 }
