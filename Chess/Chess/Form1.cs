@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Chess
@@ -40,36 +35,36 @@ namespace Chess
             {
                 switch (coord.Y) 
                 {
-                    case 105: PIECES_CORRDINATE.Add(coord, new Pawn(0)); break;
-                    case 630: PIECES_CORRDINATE.Add(coord, new Pawn(1)); break;
+                    case 105: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 1), new Pawn(0, coord)); break;
+                    case 630: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 6), new Pawn(1, coord)); break;
                     case 0: 
                         {
-                            switch (coord.Y)
+                            switch (coord.X)
                             {
-                                case 0: PIECES_CORRDINATE.Add(coord, new Rook(0)); break;
-                                case 105: PIECES_CORRDINATE.Add(coord, new Knight(0)); break;
-                                case 210: PIECES_CORRDINATE.Add(coord, new Bishop(0)); break;
-                                case 315: PIECES_CORRDINATE.Add(coord, new King(0)); break;
-                                case 420: PIECES_CORRDINATE.Add(coord, new Queen(0)); break;
-                                case 525: PIECES_CORRDINATE.Add(coord, new Bishop(0)); break;
-                                case 630: PIECES_CORRDINATE.Add(coord, new Knight(0)); break;
-                                case 735: PIECES_CORRDINATE.Add(coord, new Rook(0)); break;
+                                case 0: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Rook(0, coord)); break;
+                                case 105: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Knight(0, coord)); break;
+                                case 210: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Bishop(0, coord)); break;
+                                case 315: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new King(0, coord)); break;
+                                case 420: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Queen(0, coord)); break;
+                                case 525: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Bishop(0, coord)); break;
+                                case 630: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Knight(0, coord)); break;
+                                case 735: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Rook(0, coord)); break;
                                 default:
                                     break;
                             }
                         } break;
                     case 735:
                         {
-                            switch (coord.Y)
+                            switch (coord.X)
                             {
-                                case 0: PIECES_CORRDINATE.Add(coord, new Rook(1)); break;
-                                case 105: PIECES_CORRDINATE.Add(coord, new Knight(1)); break;
-                                case 210: PIECES_CORRDINATE.Add(coord, new Bishop(1)); break;
-                                case 315: PIECES_CORRDINATE.Add(coord, new King(1)); break;
-                                case 420: PIECES_CORRDINATE.Add(coord, new Queen(1)); break;
-                                case 525: PIECES_CORRDINATE.Add(coord, new Bishop(1)); break;
-                                case 630: PIECES_CORRDINATE.Add(coord, new Knight(1)); break;
-                                case 735: PIECES_CORRDINATE.Add(coord, new Rook(1)); break;
+                                case 0: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Rook(1, coord)); break;
+                                case 105: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Knight(1, coord)); break;
+                                case 210: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Bishop(1, coord)); break;
+                                case 315: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new King(1, coord)); break;
+                                case 420: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Queen(1, coord)); break;
+                                case 525: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Bishop(1, coord)); break;
+                                case 630: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Knight(1, coord)); break;
+                                case 735: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Rook(1, coord)); break;
                                 default:
                                     break;
                             }
@@ -222,8 +217,8 @@ namespace Chess
         //When you click the board it will be able to move pieces to that location
         private void Board_Click(object sender, MouseEventArgs e)
         {
-            Graphics g = GameBoard.CreateGraphics();
-            DrawHighlight(e.X, e.Y, 0, 105, 0, 105, g);
+            //Graphics g = GameBoard.CreateGraphics();
+            //DrawHighlight(e.X, e.Y, 0, 105, 0, 105, g);
         }
 
         private void Form1_Resize(object sender, EventArgs e)
