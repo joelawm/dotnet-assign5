@@ -7,6 +7,7 @@ using System.Drawing;
 
 namespace Chess
 {
+    public enum Type { King, Queen, Knight, Bishop, Rook, Pawn };
     class Piece
     {
         private readonly int side;
@@ -15,7 +16,7 @@ namespace Chess
         public Piece(int side, Point coord)
         {
             this.side = side;
-            coordinate = coord;
+            Coordinate = coord;
         }
 
         public Point Coordinate

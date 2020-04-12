@@ -9,6 +9,12 @@ namespace Chess
 {
     class Rook:Piece
     {
-        public Rook(int side, Point coord) : base(side, coord) { }
+        private readonly Type type;
+        public Rook(int side, Point coord) : base(side, coord)
+        {
+            type = Type.Rook;
+        }
+
+        public Type Type => type;
     }
 }
