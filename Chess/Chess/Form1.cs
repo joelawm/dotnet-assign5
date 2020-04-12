@@ -146,13 +146,13 @@ namespace Chess
                     else
                     {
                         //if not good, then it will shift one square down
-                        DrawHighlight(x, y, 0, 128, ylowerbound + 128, yupperbound + 128, g);
+                        DrawHighlight(x, y, 0, BoardSquareLength, ylowerbound + BoardSquareLength, yupperbound + BoardSquareLength, g);
                     }
                 }
                 else
                 {
                     //if not good it will shift one square to the right
-                    DrawHighlight(x, y, xlowerbound + 128, xupperbound + 128, ylowerbound, yupperbound, g);
+                    DrawHighlight(x, y, xlowerbound + BoardSquareLength, xupperbound + BoardSquareLength, ylowerbound, yupperbound, g);
                 }
             }
             else
@@ -181,19 +181,18 @@ namespace Chess
                             x2 = -1;
                             y2 = -1;
                             //refresh the gameboard
-                            //GameBoard.Invalidate();
-                            //GameBoard.Update();
+                            GameBoard.Refresh();
                         }
                         else
                         {
                             //if not good, then it will shift one square down
-                            DrawHighlight(x, y, 0, 128, ylowerbound + 128, yupperbound + 128, g);
+                            DrawHighlight(x, y, 0, BoardSquareLength, ylowerbound + BoardSquareLength, yupperbound + BoardSquareLength, g);
                         }
                     }
                     else
                     {
                         //if not good it will shift one square to the right
-                        DrawHighlight(x, y, xlowerbound + 128, xupperbound + 128, ylowerbound, yupperbound, g);
+                        DrawHighlight(x, y, xlowerbound + BoardSquareLength, xupperbound + BoardSquareLength, ylowerbound, yupperbound, g);
                     }
                 }
             }
@@ -217,8 +216,8 @@ namespace Chess
         //When you click the board it will be able to move pieces to that location
         private void Board_Click(object sender, MouseEventArgs e)
         {
-            //Graphics g = GameBoard.CreateGraphics();
-            //DrawHighlight(e.X, e.Y, 0, 105, 0, 105, g);
+            Graphics g = GameBoard.CreateGraphics();
+            DrawHighlight(e.X, e.Y, 0, BoardSquareLength, 0, BoardSquareLength, g);
         }
 
         private void Form1_Resize(object sender, EventArgs e)
