@@ -14,56 +14,60 @@ namespace Chess
         {
             type = Type.Pawn;
         }
-        public override Point move(Point step)
+        public override bool move(Point step)
         {
-            if (firstStep)
+            if (firstStep && step.X - Coordinate.X == 0)
             {
                 switch (Side)
                 {
                     case Side.black:
                         {
-                            if (step.Y - Coordinate.Y == 2 || step.Y - Coordinate.Y == 1)
+                            if (step.Y - Coordinate.Y == 2 * 105 || step.Y - Coordinate.Y == 105)
                             {
                                 Coordinate = step;
                                 firstStep = false;
+                                return true;
                             }
                         }break;
                     case Side.White:
                         {
-                            if (step.Y - Coordinate.Y == -2 || step.Y - Coordinate.Y == -1)
+                            if (step.Y - Coordinate.Y == -2 * 105 || step.Y - Coordinate.Y == -105)
                             {
                                 Coordinate = step;
                                 firstStep = false;
+                                return true;
                             }
                         }break;
                     default:
                         break;
                 }
             }
-            else
+            else if (step.X - Coordinate.X == 0)
             {
                 switch (Side)
                 {
                     case Side.black:
                         {
-                            if (step.Y - Coordinate.Y == 1)
+                            if (step.Y - Coordinate.Y == 105)
                             {
                                 Coordinate = step;
+                                return true;
                             }
                         }
                         break;
                     case Side.White:
                         {
-                            if (step.Y - Coordinate.Y == -1)
+                            if (step.Y - Coordinate.Y == -105)
                             {
                                 Coordinate = step;
+                                return true;
                             }
                         }break;
                     default:
                         break;
                 }
             }
-            return Coordinate;
+            return false;
         }
     }
 }

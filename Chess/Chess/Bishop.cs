@@ -13,59 +13,15 @@ namespace Chess
         {
             type = Type.Bishop;
         }
-        public override Point move(Point step)
+        public override bool move(Point step)
         {
             Point stepCounter = new Point(step.X - Coordinate.X, step.Y - Coordinate.Y);
-            switch (stepCounter.X)
+            if (Math.Abs(stepCounter.X) == Math.Abs(stepCounter.Y))
             {
-                case -2:
-                    {
-                        switch (stepCounter.Y)
-                        {
-                            case 1: Coordinate = step; break;
-                            case -1: Coordinate = step; break;
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-                case -1:
-                    {
-                        switch (stepCounter.Y)
-                        {
-                            case 1: Coordinate = step; break;
-                            case -1: Coordinate = step; break;
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-                case 1:
-                    {
-                        switch (stepCounter.Y)
-                        {
-                            case 1: Coordinate = step; break;
-                            case -1: Coordinate = step; break;
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-                case 2:
-                    {
-                        switch (stepCounter.Y)
-                        {
-                            case 1: Coordinate = step; break;
-                            case -1: Coordinate = step; break;
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-                default:
-                    break;
+                Coordinate = step;
+                return true;
             }
-            return Coordinate;
+            return false;
         }
     }
 }

@@ -30,9 +30,9 @@ namespace Chess
 
         public Type Type => type;
 
-        public virtual Point move(Point step)
+        public virtual bool move(Point step)
         {
-            return Coordinate;
+            return false;
         }
     }
 }
