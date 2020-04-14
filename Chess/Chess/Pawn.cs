@@ -10,8 +10,11 @@ namespace Chess
     class Pawn : Piece
     {
         bool firstStep = true;
-        public Pawn(Side side, Point coord) : base(side, coord)
+        public Pawn(Side side, Point coord)
         {
+
+            this.side = side;
+            Coordinate = coord;
             type = Type.Pawn;
         }
         public override bool move(Point step)

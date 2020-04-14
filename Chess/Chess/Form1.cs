@@ -13,8 +13,8 @@ namespace Chess
         static int BoardSquareLength = 105; //each square on the board is 128x128 pixels
         static HashSet<Point> BOARD_COORDINATE = new HashSet<Point>();
         static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>();
-        List<Piece> player1 = new List<Piece>(); //2 list for each players pieces left
-        List<Piece> player2 = new List<Piece>();
+        static List<Piece> player1 = new List<Piece>(); //2 list for each players pieces left
+        static List<Piece> player2 = new List<Piece>();
         static Point selectPick = new Point(-1, 9999);
         static Point selectMove = new Point(-1, 9999);
         int x1 = -1; //this is horrible code, but its late, this is to hold the mouse input on where it clicked
@@ -33,6 +33,7 @@ namespace Chess
 
         private void PiecesCoordinateInit()
         {
+
             foreach (var coord in BOARD_COORDINATE)
             {
                 switch (coord.Y) 

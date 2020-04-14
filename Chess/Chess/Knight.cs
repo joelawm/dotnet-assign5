@@ -9,8 +9,11 @@ namespace Chess
 {
     class Knight:Piece
     {
-        public Knight(Side side, Point coord) : base(side, coord)
+        public Knight(Side side, Point coord)
         {
+
+            this.side = side;
+            Coordinate = coord;
             type = Type.Knight;
         }
 

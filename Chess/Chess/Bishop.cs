@@ -9,8 +9,10 @@ namespace Chess
 {
     class Bishop:Piece
     {
-        public Bishop(Side side, Point coord) : base(side, coord) 
+        public Bishop(Side side, Point coord)
         {
+            this.side = side;
+            Coordinate = coord;
             type = Type.Bishop;
         }
         public override bool move(Point step)
