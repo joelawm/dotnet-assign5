@@ -7,18 +7,17 @@ using System.Drawing;
 
 namespace Chess
 {
-    public enum Type { King, Queen, Knight, Bishop, Rook, Pawn };
-    public enum Side { black, White};
+    public enum Type { King, Queen, Knight, Bishop, Rook, Pawn, Null };
+    public enum Side { black, White, Null};
     class Piece
     {
-        private readonly Side side;
+        protected Side side;
         private Point coordinate;
         protected Type type;
 
-        public Piece(Side side, Point coord)
+        public Piece()
         {
-            this.side = side;
-            Coordinate = coord;
+            
         }
 
         public Point Coordinate

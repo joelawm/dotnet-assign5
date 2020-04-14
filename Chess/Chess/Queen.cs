@@ -9,8 +9,11 @@ namespace Chess
 {
     class Queen:Piece
     {
-        public Queen(Side side, Point coord) : base(side, coord)
+        public Queen(Side side, Point coord)
         {
+
+            this.side = side;
+            Coordinate = coord;
             type = Type.Queen;
         }
         public override bool move (Point step)

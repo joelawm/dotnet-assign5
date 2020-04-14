@@ -5,8 +5,11 @@ namespace Chess
 {
     class Rook:Piece
     {
-        public Rook(Side side, Point coord) : base(side, coord)
+        public Rook(Side side, Point coord)
         {
+
+            this.side = side;
+            Coordinate = coord;
             type = Type.Rook;
         }
         public override bool move(Point step)
