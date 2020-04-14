@@ -13,7 +13,7 @@ namespace Chess
         {
             type = Type.King;
         }
-        public override Point move (Point step)
+        public override bool move (Point step)
         {
             Point stepCounter = new Point(step.X - Coordinate.X, step.Y - Coordinate.Y);
             switch (stepCounter.X)
@@ -22,32 +22,32 @@ namespace Chess
                     {
                         switch (stepCounter.Y)
                         {
-                            case 1: Coordinate = step; break;
-                            case -1: Coordinate = step; break;
+                            case 1 * 105: Coordinate = step; return true;
+                            case -1 * 105: Coordinate = step; return true;
                             default:
                                 break;
                         }
                     }
                     break;
-                case 1:
+                case 1 * 105:
                     {
                         switch (stepCounter.Y)
                         {
-                            case 0: Coordinate = step; break;
-                            case 1: Coordinate = step; break;
-                            case -1: Coordinate = step; break;
+                            case 0: Coordinate = step; return true;
+                            case 1 * 105: Coordinate = step; return true;
+                            case -1 * 105: Coordinate = step; return true;
                             default:
                                 break;
                         }
                     }
                     break;
-                case -1:
+                case -1 * 105:
                     {
                         switch (stepCounter.Y)
                         {
-                            case 0: Coordinate = step; break;
-                            case 1: Coordinate = step; break;
-                            case -1: Coordinate = step; break;
+                            case 0: Coordinate = step; return true;
+                            case 1 * 105: Coordinate = step; return true;
+                            case -1 * 105: Coordinate = step; return true;
                             default:
                                 break;
                         }
@@ -56,7 +56,7 @@ namespace Chess
                 default:
                     break;
             }
-            return Coordinate;
+            return false;
         }
     }
 }

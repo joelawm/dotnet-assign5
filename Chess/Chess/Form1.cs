@@ -12,9 +12,12 @@ namespace Chess
         static Point LIMINT = new Point(840, 840);
         static int BoardSquareLength = 105; //each square on the board is 128x128 pixels
         static HashSet<Point> BOARD_COORDINATE = new HashSet<Point>();
-        static Dictionary<Point, Piece> PIECES_CORRDINATE = new Dictionary<Point, Piece>();
+        static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>();
         List<Piece> player1 = new List<Piece>(); //2 list for each players pieces left
         List<Piece> player2 = new List<Piece>();
+        static bool selected = false;
+        static Point selectPick = new Point(-1, 9999);
+        static Point selectMove = new Point(-1, 9999);
         int x1 = -1; //this is horrible code, but its late, this is to hold the mouse input on where it clicked
         int y1 = -1;
         int x2 = -1;
@@ -26,6 +29,7 @@ namespace Chess
             InitializeComponent();
             BuildBoardCoordinate();
             PiecesCoordinateInit();
+            
         }
 
         private void PiecesCoordinateInit()
@@ -35,20 +39,20 @@ namespace Chess
             {
                 switch (coord.Y) 
                 {
-                    case 105: PIECES_CORRDINATE.Add(coord, new Pawn(Side.black, coord)); break;
-                    case 630: PIECES_CORRDINATE.Add(coord, new Pawn(Side.White, coord)); break;
+                    case 105: PIECES_CORRDINATE.Add(new Pawn(Side.black, coord)); break;
+                    case 630: PIECES_CORRDINATE.Add(new Pawn(Side.White, coord)); break;
                     case 0: 
                         {
                             switch (coord.X)
                             {
-                                case 0: PIECES_CORRDINATE.Add(coord, new Rook(Side.black, coord)); break;
-                                case 105: PIECES_CORRDINATE.Add(coord, new Knight(Side.black, coord)); break;
-                                case 210: PIECES_CORRDINATE.Add(coord, new Bishop(Side.black, coord)); break;
-                                case 315: PIECES_CORRDINATE.Add(coord, new King(Side.black, coord)); break;
-                                case 420: PIECES_CORRDINATE.Add(coord, new Queen(Side.black, coord)); break;
-                                case 525: PIECES_CORRDINATE.Add(coord, new Bishop(Side.black, coord)); break;
-                                case 630: PIECES_CORRDINATE.Add(coord, new Knight(Side.black, coord)); break;
-                                case 735: PIECES_CORRDINATE.Add(coord, new Rook(Side.black, coord)); break;
+                                case 0: PIECES_CORRDINATE.Add(new Rook(Side.black, coord)); break;
+                                case 105: PIECES_CORRDINATE.Add(new Knight(Side.black, coord)); break;
+                                case 210: PIECES_CORRDINATE.Add(new Bishop(Side.black, coord)); break;
+                                case 315: PIECES_CORRDINATE.Add(new King(Side.black, coord)); break;
+                                case 420: PIECES_CORRDINATE.Add(new Queen(Side.black, coord)); break;
+                                case 525: PIECES_CORRDINATE.Add(new Bishop(Side.black, coord)); break;
+                                case 630: PIECES_CORRDINATE.Add(new Knight(Side.black, coord)); break;
+                                case 735: PIECES_CORRDINATE.Add(new Rook(Side.black, coord)); break;
                                 default:
                                     break;
                             }
@@ -57,14 +61,14 @@ namespace Chess
                         {
                             switch (coord.X)
                             {
-                                case 0: PIECES_CORRDINATE.Add(coord, new Rook(Side.White, coord)); break;
-                                case 105: PIECES_CORRDINATE.Add(coord, new Knight(Side.White, coord)); break;
-                                case 210: PIECES_CORRDINATE.Add(coord, new Bishop(Side.White, coord)); break;
-                                case 315: PIECES_CORRDINATE.Add(coord, new King(Side.White, coord)); break;
-                                case 420: PIECES_CORRDINATE.Add(coord, new Queen(Side.White, coord)); break;
-                                case 525: PIECES_CORRDINATE.Add(coord, new Bishop(Side.White, coord)); break;
-                                case 630: PIECES_CORRDINATE.Add(coord, new Knight(Side.White, coord)); break;
-                                case 735: PIECES_CORRDINATE.Add(coord, new Rook(Side.White, coord)); break;
+                                case 0: PIECES_CORRDINATE.Add(new Rook(Side.White, coord)); break;
+                                case 105: PIECES_CORRDINATE.Add(new Knight(Side.White, coord)); break;
+                                case 210: PIECES_CORRDINATE.Add(new Bishop(Side.White, coord)); break;
+                                case 315: PIECES_CORRDINATE.Add(new King(Side.White, coord)); break;
+                                case 420: PIECES_CORRDINATE.Add(new Queen(Side.White, coord)); break;
+                                case 525: PIECES_CORRDINATE.Add(new Bishop(Side.White, coord)); break;
+                                case 630: PIECES_CORRDINATE.Add(new Knight(Side.White, coord)); break;
+                                case 735: PIECES_CORRDINATE.Add(new Rook(Side.White, coord)); break;
                                 default:
                                     break;
                             }
@@ -112,15 +116,6 @@ namespace Chess
                         else
                             sb.Color = Color.Black;
                 }
-            }
-        }
-
-        //draw the pieces on the board
-        private void DrawPieces(Graphics g)
-        {
-            using (Pen myPen = new Pen(Color.Gray))
-            {
-                //draw each chest piece in grey
             }
         }
 
@@ -211,13 +206,102 @@ namespace Chess
             //set the game up
             DrawBoard(g);
             //DrawPieces(g);
+            DrawPieces(g);
+        }
+
+        private void DrawPieces(Graphics g)
+        {
+            foreach(var piece in PIECES_CORRDINATE)
+            { 
+                switch (piece.Type)
+                {
+                    case Type.Bishop:
+                        {
+                            if (piece.Side == Side.black)
+                                g.DrawString("Bishop", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                            else
+                                g.DrawString("Bishop", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                        } 
+                        break;
+                    case Type.King:
+                        {
+                            if (piece.Side == Side.black)
+                                g.DrawString("King", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                            else
+                                g.DrawString("King", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                        }
+                        break;
+                    case Type.Knight:
+                        {
+                            if (piece.Side == Side.black)
+                                g.DrawString("Knight", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                            else
+                                g.DrawString("Knight", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                        }
+                        break;
+                    case Type.Pawn:
+                        {
+                            if (piece.Side == Side.black)
+                                g.DrawString("Pawn", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                            else
+                                g.DrawString("Pawn", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                        }
+                        break;
+                    case Type.Queen:
+                        {
+                            if (piece.Side == Side.black)
+                                g.DrawString("Queen", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                            else
+                                g.DrawString("Queen", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                        }
+                        break;
+                    case Type.Rook:
+                        {
+                            if (piece.Side == Side.black)
+                                g.DrawString("Rook", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                            else
+                                g.DrawString("Rook", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         //When you click the board it will be able to move pieces to that location
         private void Board_Click(object sender, MouseEventArgs e)
         {
-            Graphics g = GameBoard.CreateGraphics();
-            DrawHighlight(e.X, e.Y, 0, BoardSquareLength, 0, BoardSquareLength, g);
+            selectPick = selectMove;
+            selectMove = new Point(e.X / 105 * 105, e.Y / 105 * 105);
+            //MessageBox.Show(selectPick.X.ToString() + ", " + selectPick.Y.ToString() + " : " +
+            //                        selectMove.X.ToString() + ", " + selectMove.Y.ToString());
+            PieceMove();
+            //Graphics g = GameBoard.CreateGraphics();
+            //DrawHighlight(e.X, e.Y, 0, BoardSquareLength, 0, BoardSquareLength, g);
+        }
+
+        private void PieceMove()
+        {
+            
+            foreach (var select in PIECES_CORRDINATE)
+            {
+                if (select.Coordinate.X == selectPick.X && select.Coordinate.Y == selectPick.Y)
+                {
+                    if (select.move(selectMove))
+                    {
+                        foreach (var remove in PIECES_CORRDINATE)
+                        {
+                            if (remove.Coordinate.X == selectMove.X && remove.Coordinate.Y == selectMove.Y && remove.Type != select.Type && remove.Side != select.Side)
+                            {
+                                remove.Coordinate = new Point(-1, 9999);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            GameBoard.Refresh();
         }
 
         private void Form1_Resize(object sender, EventArgs e)

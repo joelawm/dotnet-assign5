@@ -13,14 +13,21 @@ namespace Chess
         {
             type = Type.Queen;
         }
-        public override Point move (Point step)
+        public override bool move (Point step)
         {
             Point stepCounter = new Point(step.X - Coordinate.X, step.Y - Coordinate.Y);
             if (Math.Abs(stepCounter.X) == Math.Abs(stepCounter.Y))
+            {
                 Coordinate = step;
+                return true;
+            }
             else if (stepCounter.X == 0 || stepCounter.Y == 0)
-                Coordinate = step;
-            return Coordinate;
+            {
+                Coordinate = step; 
+                return true;
+
+            }
+            return false;
         }
     }
 }
