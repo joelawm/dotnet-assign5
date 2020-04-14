@@ -9,12 +9,63 @@ namespace Chess
 {
     class Bishop:Piece
     {
-        private readonly Type type;
-        public Bishop(int side, Point coord) : base(side, coord) 
+        public Bishop(Side side, Point coord) : base(side, coord) 
         {
             type = Type.Bishop;
         }
-
-        public Type Type => type;
+        public override Point move(Point step)
+        {
+            Point stepCounter = new Point(step.X - Coordinate.X, step.Y - Coordinate.Y);
+            switch (stepCounter.X)
+            {
+                case -2:
+                    {
+                        switch (stepCounter.Y)
+                        {
+                            case 1: Coordinate = step; break;
+                            case -1: Coordinate = step; break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                case -1:
+                    {
+                        switch (stepCounter.Y)
+                        {
+                            case 1: Coordinate = step; break;
+                            case -1: Coordinate = step; break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                case 1:
+                    {
+                        switch (stepCounter.Y)
+                        {
+                            case 1: Coordinate = step; break;
+                            case -1: Coordinate = step; break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                case 2:
+                    {
+                        switch (stepCounter.Y)
+                        {
+                            case 1: Coordinate = step; break;
+                            case -1: Coordinate = step; break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return Coordinate;
+        }
     }
 }

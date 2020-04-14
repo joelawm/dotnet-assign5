@@ -8,12 +8,14 @@ using System.Drawing;
 namespace Chess
 {
     public enum Type { King, Queen, Knight, Bishop, Rook, Pawn };
+    public enum Side { black, White};
     class Piece
     {
-        private readonly int side;
+        private readonly Side side;
         private Point coordinate;
+        protected Type type;
 
-        public Piece(int side, Point coord)
+        public Piece(Side side, Point coord)
         {
             this.side = side;
             Coordinate = coord;
@@ -24,6 +26,13 @@ namespace Chess
             get => coordinate;
             set { coordinate = value; }
         }
-        public int Side => side;
+        public Side Side => side;
+
+        public Type Type => type;
+
+        public virtual Point move(Point step)
+        {
+            return Coordinate;
+        }
     }
 }

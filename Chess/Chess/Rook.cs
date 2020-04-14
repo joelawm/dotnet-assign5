@@ -1,20 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace Chess
 {
     class Rook:Piece
     {
-        private readonly Type type;
-        public Rook(int side, Point coord) : base(side, coord)
+        public Rook(Side side, Point coord) : base(side, coord)
         {
             type = Type.Rook;
         }
-
-        public Type Type => type;
+        public override Point move(Point step)
+        {
+            Point stepCounter = new Point(step.X - Coordinate.X, step.Y - Coordinate.Y);
+            if(Math.Abs(stepCounter.X) == Math.Abs(stepCounter.Y))
+            {
+                Coordinate = step;
+            }
+            return Coordinate;
+        }
     }
 }
