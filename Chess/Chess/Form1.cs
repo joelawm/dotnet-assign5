@@ -15,7 +15,6 @@ namespace Chess
         static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>();
         List<Piece> player1 = new List<Piece>(); //2 list for each players pieces left
         List<Piece> player2 = new List<Piece>();
-        static bool selected = false;
         static Point selectPick = new Point(-1, 9999);
         static Point selectMove = new Point(-1, 9999);
         int x1 = -1; //this is horrible code, but its late, this is to hold the mouse input on where it clicked
@@ -34,7 +33,6 @@ namespace Chess
 
         private void PiecesCoordinateInit()
         {
-
             foreach (var coord in BOARD_COORDINATE)
             {
                 switch (coord.Y) 
@@ -292,7 +290,7 @@ namespace Chess
                     {
                         foreach (var remove in PIECES_CORRDINATE)
                         {
-                            if (remove.Coordinate.X == selectMove.X && remove.Coordinate.Y == selectMove.Y && remove.Type != select.Type && remove.Side != select.Side)
+                            if (remove.Coordinate.X == selectMove.X && remove.Coordinate.Y == selectMove.Y && remove.Side != select.Side)
                             {
                                 remove.Coordinate = new Point(-1, 9999);
                                 break;
