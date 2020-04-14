@@ -35,20 +35,20 @@ namespace Chess
             {
                 switch (coord.Y) 
                 {
-                    case 105: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 1), new Pawn(Side.black, coord)); break;
-                    case 630: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 6), new Pawn(Side.White, coord)); break;
+                    case 105: PIECES_CORRDINATE.Add(coord, new Pawn(Side.black, coord)); break;
+                    case 630: PIECES_CORRDINATE.Add(coord, new Pawn(Side.White, coord)); break;
                     case 0: 
                         {
                             switch (coord.X)
                             {
-                                case 0: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Rook(Side.black, coord)); break;
-                                case 105: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Knight(Side.black, coord)); break;
-                                case 210: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Bishop(Side.black, coord)); break;
-                                case 315: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new King(Side.black, coord)); break;
-                                case 420: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Queen(Side.black, coord)); break;
-                                case 525: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Bishop(Side.black, coord)); break;
-                                case 630: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Knight(Side.black, coord)); break;
-                                case 735: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 0), new Rook(Side.black, coord)); break;
+                                case 0: PIECES_CORRDINATE.Add(coord, new Rook(Side.black, coord)); break;
+                                case 105: PIECES_CORRDINATE.Add(coord, new Knight(Side.black, coord)); break;
+                                case 210: PIECES_CORRDINATE.Add(coord, new Bishop(Side.black, coord)); break;
+                                case 315: PIECES_CORRDINATE.Add(coord, new King(Side.black, coord)); break;
+                                case 420: PIECES_CORRDINATE.Add(coord, new Queen(Side.black, coord)); break;
+                                case 525: PIECES_CORRDINATE.Add(coord, new Bishop(Side.black, coord)); break;
+                                case 630: PIECES_CORRDINATE.Add(coord, new Knight(Side.black, coord)); break;
+                                case 735: PIECES_CORRDINATE.Add(coord, new Rook(Side.black, coord)); break;
                                 default:
                                     break;
                             }
@@ -57,14 +57,14 @@ namespace Chess
                         {
                             switch (coord.X)
                             {
-                                case 0: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Rook(Side.White, coord)); break;
-                                case 105: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Knight(Side.White, coord)); break;
-                                case 210: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Bishop(Side.White, coord)); break;
-                                case 315: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new King(Side.White, coord)); break;
-                                case 420: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Queen(Side.White, coord)); break;
-                                case 525: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Bishop(Side.White, coord)); break;
-                                case 630: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Knight(Side.White, coord)); break;
-                                case 735: PIECES_CORRDINATE.Add(new Point(coord.X % 8, 7), new Rook(Side.White, coord)); break;
+                                case 0: PIECES_CORRDINATE.Add(coord, new Rook(Side.White, coord)); break;
+                                case 105: PIECES_CORRDINATE.Add(coord, new Knight(Side.White, coord)); break;
+                                case 210: PIECES_CORRDINATE.Add(coord, new Bishop(Side.White, coord)); break;
+                                case 315: PIECES_CORRDINATE.Add(coord, new King(Side.White, coord)); break;
+                                case 420: PIECES_CORRDINATE.Add(coord, new Queen(Side.White, coord)); break;
+                                case 525: PIECES_CORRDINATE.Add(coord, new Bishop(Side.White, coord)); break;
+                                case 630: PIECES_CORRDINATE.Add(coord, new Knight(Side.White, coord)); break;
+                                case 735: PIECES_CORRDINATE.Add(coord, new Rook(Side.White, coord)); break;
                                 default:
                                     break;
                             }
