@@ -10,25 +10,21 @@ namespace Chess
         //board values
         static Point INIT = new Point(0, 0);
         static Point LIMINT = new Point(840, 840);
-        static int BoardSquareLength = 105; //each square on the board is 128x128 pixels
+        static int BoardSquareLength = 105; //each square on the board is 105x105 pixels
         static HashSet<Point> BOARD_COORDINATE = new HashSet<Point>();  // game board coordinate
         static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>(); // this show where the pieces are
         static List<Point> player1 = new List<Point>(); //2 list for each players pieces left
         static List<Point> player2 = new List<Point>();
         static Point selectPick = new Point(-1, 9999);  // the first mouse click
         static Point selectMove = new Point(-1, 9999);  // the second mouse click
-        int x1 = -1; //this is horrible code, but its late, this is to hold the mouse input on where it clicked
-        int y1 = -1;
-        int x2 = -1;
-        int y2 = -1;
-
+        int player1points = 0;
+        int player2points = 0;
 
         public Form1()
         {
             InitializeComponent();
             BuildBoardCoordinate();
             PiecesCoordinateInit();
-            
         }
 
         // setting up pieces' coordinate base on the gameboard coordnate
@@ -123,93 +119,12 @@ namespace Chess
             }
         }
 
-        //draw a red highlight in square that is clicked
-        private void DrawHighlight(int x, int y, int xlowerbound, int xupperbound, int ylowerbound, int yupperbound, Graphics g)
-        {
-            if (x1 == -1)
-            {
-                //Search through x the bounds to make sure its good
-                if(x >= xlowerbound && x <= xupperbound)
-                {
-                    //Search through y the bounds to make sure its good
-                    if (y >= ylowerbound && y <= yupperbound)
-                    {
-                        Pen redPen = new Pen(Color.Red, 1);
-                        //draw the rectangle
-                        g.DrawRectangle(redPen, xlowerbound, ylowerbound, BoardSquareLength - 1, BoardSquareLength - 1);
-
-                        //save the cordinates to update next postion
-                        x1 = x;
-                        y1 = y;
-                    }
-                    else
-                    {
-                        //if not good, then it will shift one square down
-                        DrawHighlight(x, y, 0, BoardSquareLength, ylowerbound + BoardSquareLength, yupperbound + BoardSquareLength, g);
-                    }
-                }
-                else
-                {
-                    //if not good it will shift one square to the right
-                    DrawHighlight(x, y, xlowerbound + BoardSquareLength, xupperbound + BoardSquareLength, ylowerbound, yupperbound, g);
-                }
-            }
-            else
-            {
-                if (x2 == -1)
-                {
-                    //Search through x the bounds to make sure its good
-                    if (x >= xlowerbound && x <= xupperbound)
-                    {
-                        //Search through y the bounds to make sure its good
-                        if (y >= ylowerbound && y <= yupperbound)
-                        {
-                            Pen GreenPen = new Pen(Color.Green, 1);
-                            //draw the rectangle
-                            g.DrawRectangle(GreenPen, xlowerbound, ylowerbound, BoardSquareLength - 1, BoardSquareLength - 1);
-
-                            //save the cordinates to update next postion
-                            x2 = x;
-                            y2 = y;
-
-                            //call code to update postions
-                            UpdatePiecePosition(x1, y1, x2, y2);
-                            //reset the original points
-                            x1 = -1;
-                            y1 = -1;
-                            x2 = -1;
-                            y2 = -1;
-                            //refresh the gameboard
-                            GameBoard.Refresh();
-                        }
-                        else
-                        {
-                            //if not good, then it will shift one square down
-                            DrawHighlight(x, y, 0, BoardSquareLength, ylowerbound + BoardSquareLength, yupperbound + BoardSquareLength, g);
-                        }
-                    }
-                    else
-                    {
-                        //if not good it will shift one square to the right
-                        DrawHighlight(x, y, xlowerbound + BoardSquareLength, xupperbound + BoardSquareLength, ylowerbound, yupperbound, g);
-                    }
-                }
-            }
-        }
-
-        private void UpdatePiecePosition(int x1,  int y1, int x2, int y2)
-        {
-
-        }
-
-
         //Event to paint the board and set up the game
         private void Board_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
             //set the game up
             DrawBoard(g);
-            //DrawPieces(g);
             DrawPieces(g);
         }
 
@@ -285,8 +200,6 @@ namespace Chess
             selectPick = selectMove;
             selectMove = new Point(e.X / 105 * 105, e.Y / 105 * 105);
             PieceMove();
-            //Graphics g = GameBoard.CreateGraphics();
-            //DrawHighlight(e.X, e.Y, 0, BoardSquareLength, 0, BoardSquareLength, g);
         }
 
         // method that control when the piece should move
@@ -363,6 +276,43 @@ namespace Chess
         // refreshing the game board while the use maximized the window
         private void Form1_Resize(object sender, EventArgs e)
         {
+            GameBoard.Refresh();
+        }
+
+        private void SurrenderButton_Click(object sender, EventArgs e)
+        {
+            Winner();
+        }
+
+        private void Winner()
+        {
+            //whoever has the most pieces wins
+            if(player1points > player2points)
+            {
+                WinnerLabel.Visible = true;
+                WinnerLabel.Text = "Player 1 Wins!!!";
+            }
+            else if(player2points > player1points)
+            {
+                WinnerLabel.Visible = true;
+                WinnerLabel.Text = "Player 2 Wins!!!";
+            }
+            else
+            {
+                WinnerLabel.Visible = true;
+                WinnerLabel.Text = "It was a tie!!!";
+            }
+            ResetButton.Visible = true;
+        }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            //reset the labels
+            WinnerLabel.Visible = false;
+            ResetButton.Visible = false;
+
+            //reset the gameboard
+            PiecesCoordinateInit();
             GameBoard.Refresh();
         }
     }
