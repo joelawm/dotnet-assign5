@@ -7,8 +7,8 @@ using System.Drawing;
 
 namespace Chess
 {
-    public enum Type { King, Queen, Knight, Bishop, Rook, Pawn, Null };
-    public enum Side { black, White, Null};
+    public enum Type { King, Queen, Knight, Bishop, Rook, Pawn };
+    public enum Side { black, White};
     class Piece
     {
         protected Side side;
