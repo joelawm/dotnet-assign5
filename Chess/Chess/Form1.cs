@@ -13,6 +13,8 @@ namespace Chess
         static int BoardSquareLength = 105; //each square on the board is 105x105 pixels
         static HashSet<Point> BOARD_COORDINATE = new HashSet<Point>();  // game board coordinate
         static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>(); // this show where the pieces are
+        static List<Point> player1 = new List<Point>(); //2 list for each players pieces left
+        static List<Point> player2 = new List<Point>();
         static Point selectPick = new Point(-1, 9999);  // the first mouse click
         static Point selectMove = new Point(-1, 9999);  // the second mouse click
         int player1points = 0;
@@ -33,20 +35,20 @@ namespace Chess
             {
                 switch (coord.Y) 
                 {
-                    case 105: PIECES_CORRDINATE.Add(new Pawn(Side.black, coord)); break;
-                    case 630: PIECES_CORRDINATE.Add(new Pawn(Side.White, coord)); break;
+                    case 105: PIECES_CORRDINATE.Add(new Pawn(Side.black, coord)); player1.Add(coord); break;
+                    case 630: PIECES_CORRDINATE.Add(new Pawn(Side.White, coord)); player2.Add(coord); break;
                     case 0: 
                         {
                             switch (coord.X)
                             {
-                                case 0: PIECES_CORRDINATE.Add(new Rook(Side.black, coord)); break;
-                                case 105: PIECES_CORRDINATE.Add(new Knight(Side.black, coord)); break;
-                                case 210: PIECES_CORRDINATE.Add(new Bishop(Side.black, coord)); break;
-                                case 315: PIECES_CORRDINATE.Add(new King(Side.black, coord)); break;
-                                case 420: PIECES_CORRDINATE.Add(new Queen(Side.black, coord)); break;
-                                case 525: PIECES_CORRDINATE.Add(new Bishop(Side.black, coord)); break;
-                                case 630: PIECES_CORRDINATE.Add(new Knight(Side.black, coord)); break;
-                                case 735: PIECES_CORRDINATE.Add(new Rook(Side.black, coord)); break;
+                                case 0: PIECES_CORRDINATE.Add(new Rook(Side.black, coord)); player1.Add(coord); break;
+                                case 105: PIECES_CORRDINATE.Add(new Knight(Side.black, coord)); player1.Add(coord); break;
+                                case 210: PIECES_CORRDINATE.Add(new Bishop(Side.black, coord)); player1.Add(coord); break;
+                                case 315: PIECES_CORRDINATE.Add(new King(Side.black, coord)); player1.Add(coord); break;
+                                case 420: PIECES_CORRDINATE.Add(new Queen(Side.black, coord)); player1.Add(coord); break;
+                                case 525: PIECES_CORRDINATE.Add(new Bishop(Side.black, coord)); player1.Add(coord); break;
+                                case 630: PIECES_CORRDINATE.Add(new Knight(Side.black, coord)); player1.Add(coord); break;
+                                case 735: PIECES_CORRDINATE.Add(new Rook(Side.black, coord)); player1.Add(coord); break;
                                 default:
                                     break;
                             }
@@ -55,14 +57,14 @@ namespace Chess
                         {
                             switch (coord.X)
                             {
-                                case 0: PIECES_CORRDINATE.Add(new Rook(Side.White, coord)); break;
-                                case 105: PIECES_CORRDINATE.Add(new Knight(Side.White, coord)); break;
-                                case 210: PIECES_CORRDINATE.Add(new Bishop(Side.White, coord)); break;
-                                case 315: PIECES_CORRDINATE.Add(new King(Side.White, coord)); break;
-                                case 420: PIECES_CORRDINATE.Add(new Queen(Side.White, coord)); break;
-                                case 525: PIECES_CORRDINATE.Add(new Bishop(Side.White, coord)); break;
-                                case 630: PIECES_CORRDINATE.Add(new Knight(Side.White, coord)); break;
-                                case 735: PIECES_CORRDINATE.Add(new Rook(Side.White, coord)); break;
+                                case 0: PIECES_CORRDINATE.Add(new Rook(Side.White, coord)); player2.Add(coord); break;
+                                case 105: PIECES_CORRDINATE.Add(new Knight(Side.White, coord)); player2.Add(coord); break;
+                                case 210: PIECES_CORRDINATE.Add(new Bishop(Side.White, coord)); player2.Add(coord); break;
+                                case 315: PIECES_CORRDINATE.Add(new King(Side.White, coord)); player2.Add(coord); break;
+                                case 420: PIECES_CORRDINATE.Add(new Queen(Side.White, coord)); player2.Add(coord); break;
+                                case 525: PIECES_CORRDINATE.Add(new Bishop(Side.White, coord)); player2.Add(coord); break;
+                                case 630: PIECES_CORRDINATE.Add(new Knight(Side.White, coord)); player2.Add(coord); break;
+                                case 735: PIECES_CORRDINATE.Add(new Rook(Side.White, coord)); player2.Add(coord); break;
                                 default:
                                     break;
                             }
@@ -197,13 +199,13 @@ namespace Chess
         {
             selectPick = selectMove;
             selectMove = new Point(e.X / 105 * 105, e.Y / 105 * 105);
-            MessageBox.Show(selectPick.X.ToString() + ", " + selectPick.Y.ToString() + " : " + selectMove.X.ToString() + ", " + selectMove.Y.ToString());
             PieceMove();
         }
 
         // method that control when the piece should move
         private void PieceMove()
         {
+            bool sameside = false;
             // first mouse click is the selectPick and the second mouse click is the selectMove
             // in the meanwhile first click will be the second click
             
@@ -213,19 +215,58 @@ namespace Chess
                 // while the selected grid has piece match with
                 if (select.Coordinate.X == selectPick.X && select.Coordinate.Y == selectPick.Y)
                 {
-                    // selected piece move
-                    if (select.move(selectMove))
+                    if (select.Side == Side.black)
                     {
+                        foreach(var s in player1)
+                        {
+                            if (s.X == selectMove.X && s.Y == selectMove.Y)
+                            {
+                                sameside = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var s in player2)
+                        {
+                            if (s.X == selectMove.X && s.Y == selectMove.Y)
+                            {
+                                sameside = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    // selected piece move
+                    if (!sameside && select.move(selectMove))
+                    {
+                        if (select.Side == Side.black)
+                        {
+                            player1.Remove(selectPick);
+                            player1.Add(selectMove);
+                        }
+                        else
+                        {
+                            player2.Remove(selectPick);
+                            player2.Add(selectMove);
+                        }
+
                         // check if the destination of the selected piece is occupy or not
                         foreach (var remove in PIECES_CORRDINATE)
                         {
                             // if place is occupy
                             if (remove.Coordinate.X == selectMove.X && remove.Coordinate.Y == selectMove.Y && remove.Side != select.Side)
                             {
+                                if (remove.Side == Side.black)
+                                    player1.Remove(selectMove);
+                                else
+                                    player2.Remove(selectMove);
                                 remove.Coordinate = new Point(-1, 9999);
                                 break;
                             }
                         }
+                        selectMove = new Point(-1, 9999);
                     }
                 }
             }
