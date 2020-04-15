@@ -33,6 +33,7 @@
             this.PlayerTurnLabel = new System.Windows.Forms.Label();
             this.ErrorMessageBox = new System.Windows.Forms.TextBox();
             this.WinnerLabel = new System.Windows.Forms.Label();
+            this.ResetButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GameBoard)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,24 +72,37 @@
             this.ErrorMessageBox.Location = new System.Drawing.Point(845, 626);
             this.ErrorMessageBox.Multiline = true;
             this.ErrorMessageBox.Name = "ErrorMessageBox";
-            this.ErrorMessageBox.Size = new System.Drawing.Size(169, 199);
+            this.ErrorMessageBox.Size = new System.Drawing.Size(227, 199);
             this.ErrorMessageBox.TabIndex = 3;
             // 
             // WinnerLabel
             // 
             this.WinnerLabel.AutoSize = true;
+            this.WinnerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
             this.WinnerLabel.Location = new System.Drawing.Point(842, 253);
             this.WinnerLabel.Name = "WinnerLabel";
-            this.WinnerLabel.Size = new System.Drawing.Size(72, 13);
+            this.WinnerLabel.Size = new System.Drawing.Size(155, 29);
             this.WinnerLabel.TabIndex = 4;
             this.WinnerLabel.Text = "Player # Won";
             this.WinnerLabel.Visible = false;
+            // 
+            // ResetButton
+            // 
+            this.ResetButton.Location = new System.Drawing.Point(853, 285);
+            this.ResetButton.Name = "ResetButton";
+            this.ResetButton.Size = new System.Drawing.Size(75, 23);
+            this.ResetButton.TabIndex = 5;
+            this.ResetButton.Text = "Reset";
+            this.ResetButton.UseVisualStyleBackColor = true;
+            this.ResetButton.Visible = false;
+            this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1026, 837);
+            this.ClientSize = new System.Drawing.Size(1084, 837);
+            this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.WinnerLabel);
             this.Controls.Add(this.ErrorMessageBox);
             this.Controls.Add(this.PlayerTurnLabel);
@@ -110,6 +124,7 @@
         private System.Windows.Forms.Label PlayerTurnLabel;
         private System.Windows.Forms.TextBox ErrorMessageBox;
         private System.Windows.Forms.Label WinnerLabel;
+        private System.Windows.Forms.Button ResetButton;
     }
 }
 
