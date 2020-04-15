@@ -11,12 +11,12 @@ namespace Chess
         static Point INIT = new Point(0, 0);
         static Point LIMINT = new Point(840, 840);
         static int BoardSquareLength = 105; //each square on the board is 128x128 pixels
-        static HashSet<Point> BOARD_COORDINATE = new HashSet<Point>();
-        static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>();
+        static HashSet<Point> BOARD_COORDINATE = new HashSet<Point>();  // game board coordinate
+        static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>(); // this show where the pieces are
         static List<Piece> player1 = new List<Piece>(); //2 list for each players pieces left
         static List<Piece> player2 = new List<Piece>();
-        static Point selectPick = new Point(-1, 9999);
-        static Point selectMove = new Point(-1, 9999);
+        static Point selectPick = new Point(-1, 9999);  // the first mouse click
+        static Point selectMove = new Point(-1, 9999);  // the second mouse click
         int x1 = -1; //this is horrible code, but its late, this is to hold the mouse input on where it clicked
         int y1 = -1;
         int x2 = -1;
@@ -31,9 +31,10 @@ namespace Chess
             
         }
 
+        // setting up pieces' coordinate base on the gameboard coordnate
         private void PiecesCoordinateInit()
         {
-
+            // loop through the game boerd coordinate
             foreach (var coord in BOARD_COORDINATE)
             {
                 switch (coord.Y) 
@@ -79,12 +80,16 @@ namespace Chess
             }
         }
 
+        // This sets up the game board coordinate
         private void BuildBoardCoordinate()
         {
+            // game board start with (0, 0)
             BOARD_COORDINATE.Add(INIT);
+            // loop through the coordinate of x
             for(; INIT.X < LIMINT.X; INIT.X += BoardSquareLength)
             {
                 INIT.Y = 0;
+                // loop through the coordinate of Y
                 for (; INIT.Y < LIMINT.Y; INIT.Y += BoardSquareLength)
                 {
                     BOARD_COORDINATE.Add(INIT);
@@ -208,14 +213,20 @@ namespace Chess
             DrawPieces(g);
         }
 
+        // this method draw the pieces into the picture box
         private void DrawPieces(Graphics g)
         {
+            // loop through the pieces coordinate
             foreach(var piece in PIECES_CORRDINATE)
             { 
+                // switch depend on pieces' type
                 switch (piece.Type)
                 {
+                    // if pieces's type is Bishop, then.... and so on
                     case Type.Bishop:
                         {
+                            // checking for the pieces' side (black/white)
+                            // next couple if statements are doing the same job but with different pieces' type
                             if (piece.Side == Side.black)
                                 g.DrawString("Bishop", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
                             else
@@ -280,17 +291,25 @@ namespace Chess
             //DrawHighlight(e.X, e.Y, 0, BoardSquareLength, 0, BoardSquareLength, g);
         }
 
+        // method that control when the piece should move
         private void PieceMove()
         {
+            // first mouse click is the selectPick and the second mouse click is the selectMove
+            // in the meanwhile first click will be the second click
             
+            // loop through the possible pieces' coordinate
             foreach (var select in PIECES_CORRDINATE)
             {
+                // while the selected grid has piece match with
                 if (select.Coordinate.X == selectPick.X && select.Coordinate.Y == selectPick.Y)
                 {
+                    // selected piece move
                     if (select.move(selectMove))
                     {
+                        // check if the destination of the selected piece is occupy or not
                         foreach (var remove in PIECES_CORRDINATE)
                         {
+                            // if place is occupy
                             if (remove.Coordinate.X == selectMove.X && remove.Coordinate.Y == selectMove.Y && remove.Side != select.Side)
                             {
                                 remove.Coordinate = new Point(-1, 9999);
@@ -303,6 +322,7 @@ namespace Chess
             GameBoard.Refresh();
         }
 
+        // refreshing the game board while the use maximized the window
         private void Form1_Resize(object sender, EventArgs e)
         {
             GameBoard.Refresh();
