@@ -15,6 +15,8 @@ namespace Chess
         static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>(); // this show where the pieces are
         static Point selectPick = new Point(-1, 9999);  // the first mouse click
         static Point selectMove = new Point(-1, 9999);  // the second mouse click
+        int player1points = 0;
+        int player2points = 0;
 
         public Form1()
         {
@@ -121,7 +123,6 @@ namespace Chess
             Graphics g = e.Graphics;
             //set the game up
             DrawBoard(g);
-            //DrawPieces(g);
             DrawPieces(g);
         }
 
@@ -196,8 +197,7 @@ namespace Chess
         {
             selectPick = selectMove;
             selectMove = new Point(e.X / 105 * 105, e.Y / 105 * 105);
-            //MessageBox.Show(selectPick.X.ToString() + ", " + selectPick.Y.ToString() + " : " +
-            //                       selectMove.X.ToString() + ", " + selectMove.Y.ToString());
+            MessageBox.Show(selectPick.X.ToString() + ", " + selectPick.Y.ToString() + " : " + selectMove.X.ToString() + ", " + selectMove.Y.ToString());
             PieceMove();
         }
 
@@ -246,9 +246,31 @@ namespace Chess
         private void Winner()
         {
             //whoever has the most pieces wins
-            //if player 1
-            //else
+            if(player1points > player2points)
+            {
+                WinnerLabel.Visible = true;
+                WinnerLabel.Text = "Player 1 Wins!!!";
+            }
+            else if(player2points > player1points)
+            {
+                WinnerLabel.Visible = true;
+                WinnerLabel.Text = "Player 2 Wins!!!";
+            }
+            else
+            {
+                WinnerLabel.Visible = true;
+                WinnerLabel.Text = "It was a tie!!!";
+            }
+            ResetButton.Visible = true;
+        }
 
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            //reset the labels
+            WinnerLabel.Visible = false;
+            ResetButton.Visible = false;
+
+            //reset the gameboard
             PiecesCoordinateInit();
             GameBoard.Refresh();
         }
