@@ -17,6 +17,12 @@ namespace Chess
         static List<Point> player2 = new List<Point>();
         static Point selectPick = new Point(-1, 9999);  // the first mouse click
         static Point selectMove = new Point(-1, 9999);  // the second mouse click
+        static Side turn = Side.black;
+        static DateTime time;
+        static int player1Lost = 0;
+        static int player2Lost = 0;
+        static int player1step = 0;
+        static int player2step = 0;
         int x1 = -1; //this is horrible code, but its late, this is to hold the mouse input on where it clicked
         int y1 = -1;
         int x2 = -1;
@@ -206,6 +212,16 @@ namespace Chess
         //Event to paint the board and set up the game
         private void Board_Paint(object sender, PaintEventArgs e)
         {
+            if (turn == Side.black)
+            {
+                PlayerTurnLabel.ForeColor = Color.Red;
+                PlayerTurnLabel.Text = "Red player's turn";
+            }
+            else
+            {
+                PlayerTurnLabel.ForeColor = Color.Blue;
+                PlayerTurnLabel.Text = "Blue player's turn";
+            }
             Graphics g = e.Graphics;
             //set the game up
             DrawBoard(g);
@@ -285,13 +301,13 @@ namespace Chess
             selectPick = selectMove;
             selectMove = new Point(e.X / 105 * 105, e.Y / 105 * 105);
             PieceMove();
-            //Graphics g = GameBoard.CreateGraphics();
-            //DrawHighlight(e.X, e.Y, 0, BoardSquareLength, 0, BoardSquareLength, g);
+            Graphics g = GameBoard.CreateGraphics();
+            DrawHighlight(e.X, e.Y, 0, BoardSquareLength, 0, BoardSquareLength, g);
         }
 
         // method that control when the piece should move
         private void PieceMove()
-        {
+        { 
             bool sameside = false;
             // first mouse click is the selectPick and the second mouse click is the selectMove
             // in the meanwhile first click will be the second click
@@ -300,8 +316,10 @@ namespace Chess
             foreach (var select in PIECES_CORRDINATE)
             {
                 // while the selected grid has piece match with
-                if (select.Coordinate.X == selectPick.X && select.Coordinate.Y == selectPick.Y)
+                if (select.Coordinate.X == selectPick.X && select.Coordinate.Y == selectPick.Y && turn == select.Side)
                 {
+                  
+
                     if (select.Side == Side.black)
                     {
                         foreach(var s in player1)
@@ -328,6 +346,20 @@ namespace Chess
                     // selected piece move
                     if (!sameside && select.move(selectMove))
                     {
+                        if (player1step == 0)
+                            time = DateTime.Now;
+
+                        if (turn == Side.black)
+                        {
+                            turn = Side.White;
+                            ++player1step;
+                        }
+                        else
+                        {
+                            turn = Side.black;
+                            ++player2step;
+                        }
+
                         if (select.Side == Side.black)
                         {
                             player1.Remove(selectPick);
@@ -342,21 +374,60 @@ namespace Chess
                         // check if the destination of the selected piece is occupy or not
                         foreach (var remove in PIECES_CORRDINATE)
                         {
+                            
                             // if place is occupy
                             if (remove.Coordinate.X == selectMove.X && remove.Coordinate.Y == selectMove.Y && remove.Side != select.Side)
                             {
+                                if (remove.Type == Type.King)
+                                {
+                                    ClaimWinner(remove.Side);
+                                    return;
+                                }
                                 if (remove.Side == Side.black)
+                                {
                                     player1.Remove(selectMove);
+                                    ++player1Lost;
+                                }
                                 else
+                                {
                                     player2.Remove(selectMove);
+                                    ++player2Lost;
+                                }
                                 remove.Coordinate = new Point(-1, 9999);
                                 break;
                             }
                         }
                         selectMove = new Point(-1, 9999);
+                        break;
                     }
                 }
             }
+            GameBoard.Refresh();
+        }
+
+        private void ClaimWinner( Side side)
+        {
+            if (side == Side.black)
+                MessageBox.Show("Blue player win");
+            else
+                MessageBox.Show("Red player win");
+
+            MessageBox.Show("Red player lost " + player1Lost.ToString() + " pieces; Move " + player1step.ToString() + " steps\n" +
+                            "Blue player lost " + player2Lost.ToString() + " pieces; Move " + player2step.ToString() + " steps\n" +
+                            "Total time spended: " + (DateTime.Now - time).Hours.ToString() + " house, " + (DateTime.Now - time).Minutes.ToString() + " minutes, " +
+                            (DateTime.Now - time).Seconds.ToString() + " seconds, " + (DateTime.Now - time).Milliseconds.ToString() + " milliseconds, ");
+
+            player1Lost = 0;
+            player2Lost = 0;
+            player1step = 0;
+            player2step = 0;
+            turn = Side.black;
+            player1.Clear();
+            player2.Clear();
+            BOARD_COORDINATE.Clear();
+            PIECES_CORRDINATE.Clear();
+            BuildBoardCoordinate();
+            PiecesCoordinateInit();
             GameBoard.Refresh();
         }
 
