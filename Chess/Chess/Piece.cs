@@ -8,11 +8,11 @@ using System.Drawing;
 namespace Chess
 {
     public enum Type { King, Queen, Knight, Bishop, Rook, Pawn };
-    public enum Player { black, White};
+    public enum Player { Black, White};
 
     // https://en.wikipedia.org/wiki/Chess
-    public enum Ranks { one, two, three, four, five, six, seven, eight };  //AKA X, Column
-    public enum Files { a, b, c, d, e, f, g, h }; // AKA Y, Row
+    public enum Rank { eight, seven, six, five, four ,three, two, one};  //AKA X, Column
+    public enum File { a, b, c, d, e, f, g, h }; // AKA Y, Row
 
     public class Piece
     {
@@ -25,23 +25,19 @@ namespace Chess
         //        private Point coordinate;
         private Type type;
 
-        public Piece(Player player, Type type, Location location)
+        public Piece(Player player, Type type)
         {
             this.player = player;
             this.type = type;
-            this.location = location;
         }
 
-        public Location CurrentLocation
-        {
-            get { return this.location; }
-        }
+        public Player Player { get { return player; } }
 
         public virtual bool IsValidMove(GameBoard board, Location to)
         {
             int count = 0;
-            int p = (int)to.Files;
-            int q = (int)to.Ranks;
+            int p = (int)to.File;
+            int q = (int)to.Rank;
             int n = 8;
             int m = 8;
 
@@ -66,19 +62,5 @@ namespace Chess
             //return count;
             return false;
         }
-
-        //public Point Coordinate
-        //{
-        //    get => coordinate;
-        //    set { coordinate = value; }
-        //}
-        //public Side Side => side;
-
-        //public Type Type => type;
-
-        //public virtual bool move(Point step)
-        //{
-        //    return false;
-        //}
     }
 }

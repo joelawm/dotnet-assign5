@@ -8,20 +8,37 @@ namespace Chess
 {
     public class GameBoard
     {
-        private Piece[,] board;
+        private Location[,] board;
+        private int maxX = 8;
+        private int maxY = 8;
+
         public GameBoard()
         {
             //Init board
-            board = new Piece[8, 8];
+            board = new Location[maxX, maxY];
+            for (int y = 0; y < maxX; y++)
+            {
+                for (int x = 0; x < maxX; x++)
+                {
+                    board[x, y] = new Location((Rank)x, (File)y);
+                }
+            }
         }
 
-        public void Add(Piece piece)
+        public Location[,] GetSquares()
         {
-            if (board[(int)piece.CurrentLocation.Files, (int)piece.CurrentLocation.Ranks] == null)
-                board[(int)piece.CurrentLocation.Files, (int)piece.CurrentLocation.Ranks] = piece;
+            return board;
+        }
+
+        public void Add(Piece piece, Location location)
+        {
+
+            if (board[(int)location.Rank, (int)location.File].Piece == null)
+                board[(int)location.Rank, (int)location.File].Piece = piece;
             else
                 throw new Exception("Cannot add piece here, it is already occupied.");
         }
+
 
         public void Move(Piece piece, Location to)
         {
@@ -33,10 +50,5 @@ namespace Chess
                 throw new Exception("This is not a valid move");
             }
         }
-
-        //public void Init()
-        //{
-        //    Piece p = new King(Player.black, new Location(Row.one, Column.a));
-        //}
     }
 }

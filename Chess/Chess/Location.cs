@@ -8,13 +8,16 @@ namespace Chess
 {
     public class Location
     {
-        public Files Files { get; set; }
-        public Ranks Ranks { get; set; }
+        public File File { get; set; }
+        public Rank Rank { get; set; }
 
-        public Location(Ranks ranks, Files files)
+        public Location(Rank rank, File file)
         {
-            this.Files = files;
-            this.Ranks = ranks;
+            this.File = file;
+            this.Rank = rank;
         }
+
+        //Can return null if no piece exists.
+        public Piece Piece { get; set; }
     }
 }

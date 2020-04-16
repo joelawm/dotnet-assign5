@@ -9,82 +9,16 @@ namespace Chess
 {
     class Pawn : Piece
     {
-        public Pawn(Player player, Location location) : base(player, Type.Pawn, location)
+        public Pawn(Player player) : base(player, Type.Pawn)
         {
             //Queen can move in any direction any number of spaces in open direction
-            base.Ranks = new int[] { };
-            base.Files = new int[] { };
+            base.Ranks = new int[] {0};
+            base.Files = new int[] {1}; // do plus one on first move
         }
 
         public override bool IsValidMove(GameBoard board, Location to)
         {
             return base.IsValidMove(board, to);
         }
-
-        /*
-        bool firstStep = true;
-        public Pawn(Side side, Point coord)
-        {
-
-            this.side = side;
-            Coordinate = coord;
-            type = Type.Pawn;
-        }
-        public override bool move(Point step)
-        {
-            if (firstStep && step.X - Coordinate.X == 0)
-            {
-                switch (Side)
-                {
-                    case Side.black:
-                        {
-                            if (step.Y - Coordinate.Y == 2 * 105 || step.Y - Coordinate.Y == 105)
-                            {
-                                Coordinate = step;
-                                firstStep = false;
-                                return true;
-                            }
-                        }break;
-                    case Side.White:
-                        {
-                            if (step.Y - Coordinate.Y == -2 * 105 || step.Y - Coordinate.Y == -105)
-                            {
-                                Coordinate = step;
-                                firstStep = false;
-                                return true;
-                            }
-                        }break;
-                    default:
-                        break;
-                }
-            }
-            else if (step.X - Coordinate.X == 0)
-            {
-                switch (Side)
-                {
-                    case Side.black:
-                        {
-                            if (step.Y - Coordinate.Y == 105)
-                            {
-                                Coordinate = step;
-                                return true;
-                            }
-                        }
-                        break;
-                    case Side.White:
-                        {
-                            if (step.Y - Coordinate.Y == -105)
-                            {
-                                Coordinate = step;
-                                return true;
-                            }
-                        }break;
-                    default:
-                        break;
-                }
-            }
-            return false;
-        }
-        */
     }
 }
