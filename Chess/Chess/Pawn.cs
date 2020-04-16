@@ -9,6 +9,19 @@ namespace Chess
 {
     class Pawn : Piece
     {
+        public Pawn(Player player, Location location) : base(player, Type.Pawn, location)
+        {
+            //Queen can move in any direction any number of spaces in open direction
+            base.Ranks = new int[] { };
+            base.Files = new int[] { };
+        }
+
+        public override bool IsValidMove(GameBoard board, Location to)
+        {
+            return base.IsValidMove(board, to);
+        }
+
+        /*
         bool firstStep = true;
         public Pawn(Side side, Point coord)
         {
@@ -72,5 +85,6 @@ namespace Chess
             }
             return false;
         }
+        */
     }
 }

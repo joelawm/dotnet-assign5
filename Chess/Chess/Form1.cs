@@ -40,6 +40,14 @@ namespace Chess
         // setting up pieces' coordinate base on the gameboard coordnate
         private void PiecesCoordinateInit()
         {
+            GameBoard board = new GameBoard();
+            Player playerOne = new Player();
+
+            board.Add(new King(playerOne, new Location(Ranks.one, Files.d)));
+            board.Add(new Queen(playerOne, new Location(Ranks.one, Files.c)));
+
+
+
             // loop through the game boerd coordinate
             foreach (var coord in BOARD_COORDINATE)
             {
