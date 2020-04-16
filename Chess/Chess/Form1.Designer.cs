@@ -34,12 +34,14 @@
             this.ErrorMessageBox = new System.Windows.Forms.TextBox();
             this.WinnerLabel = new System.Windows.Forms.Label();
             this.ResetButton = new System.Windows.Forms.Button();
+            this.ControlsGroupBox = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.GameBoard)).BeginInit();
+            this.ControlsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // SurrenderButton
             // 
-            this.SurrenderButton.Location = new System.Drawing.Point(1047, 12);
+            this.SurrenderButton.Location = new System.Drawing.Point(6, 19);
             this.SurrenderButton.Name = "SurrenderButton";
             this.SurrenderButton.Size = new System.Drawing.Size(75, 23);
             this.SurrenderButton.TabIndex = 0;
@@ -61,18 +63,19 @@
             // PlayerTurnLabel
             // 
             this.PlayerTurnLabel.AutoSize = true;
-            this.PlayerTurnLabel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.PlayerTurnLabel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.PlayerTurnLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.PlayerTurnLabel.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.PlayerTurnLabel.Location = new System.Drawing.Point(1044, 38);
+            this.PlayerTurnLabel.Location = new System.Drawing.Point(6, 45);
             this.PlayerTurnLabel.Name = "PlayerTurnLabel";
-            this.PlayerTurnLabel.Size = new System.Drawing.Size(78, 13);
+            this.PlayerTurnLabel.Size = new System.Drawing.Size(112, 20);
             this.PlayerTurnLabel.TabIndex = 2;
             this.PlayerTurnLabel.Text = "Player #\'s Turn";
             // 
             // ErrorMessageBox
             // 
             this.ErrorMessageBox.Location = new System.Drawing.Point(1045, 824);
-            this.ErrorMessageBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ErrorMessageBox.Margin = new System.Windows.Forms.Padding(2);
             this.ErrorMessageBox.Multiline = true;
             this.ErrorMessageBox.Name = "ErrorMessageBox";
             this.ErrorMessageBox.Size = new System.Drawing.Size(208, 212);
@@ -82,7 +85,7 @@
             // 
             this.WinnerLabel.AutoSize = true;
             this.WinnerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
-            this.WinnerLabel.Location = new System.Drawing.Point(1042, 164);
+            this.WinnerLabel.Location = new System.Drawing.Point(5, 89);
             this.WinnerLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.WinnerLabel.Name = "WinnerLabel";
             this.WinnerLabel.Size = new System.Drawing.Size(155, 29);
@@ -92,8 +95,8 @@
             // 
             // ResetButton
             // 
-            this.ResetButton.Location = new System.Drawing.Point(1047, 195);
-            this.ResetButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ResetButton.Location = new System.Drawing.Point(10, 141);
+            this.ResetButton.Margin = new System.Windows.Forms.Padding(2);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(101, 32);
             this.ResetButton.TabIndex = 5;
@@ -102,21 +105,33 @@
             this.ResetButton.Visible = false;
             this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
+            // ControlsGroupBox
+            // 
+            this.ControlsGroupBox.Controls.Add(this.SurrenderButton);
+            this.ControlsGroupBox.Controls.Add(this.ResetButton);
+            this.ControlsGroupBox.Controls.Add(this.PlayerTurnLabel);
+            this.ControlsGroupBox.Controls.Add(this.WinnerLabel);
+            this.ControlsGroupBox.Location = new System.Drawing.Point(1049, 12);
+            this.ControlsGroupBox.Name = "ControlsGroupBox";
+            this.ControlsGroupBox.Size = new System.Drawing.Size(200, 178);
+            this.ControlsGroupBox.TabIndex = 6;
+            this.ControlsGroupBox.TabStop = false;
+            this.ControlsGroupBox.Text = "Controls";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1257, 1053);
-            this.Controls.Add(this.ResetButton);
-            this.Controls.Add(this.WinnerLabel);
+            this.ClientSize = new System.Drawing.Size(1261, 1053);
+            this.Controls.Add(this.ControlsGroupBox);
             this.Controls.Add(this.ErrorMessageBox);
-            this.Controls.Add(this.PlayerTurnLabel);
             this.Controls.Add(this.GameBoard);
-            this.Controls.Add(this.SurrenderButton);
             this.Name = "Form1";
             this.Text = "Chess";
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.GameBoard)).EndInit();
+            this.ControlsGroupBox.ResumeLayout(false);
+            this.ControlsGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -130,6 +145,7 @@
         private System.Windows.Forms.TextBox ErrorMessageBox;
         private System.Windows.Forms.Label WinnerLabel;
         private System.Windows.Forms.Button ResetButton;
+        private System.Windows.Forms.GroupBox ControlsGroupBox;
     }
 }
 
