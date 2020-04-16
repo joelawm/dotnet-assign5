@@ -9,107 +9,71 @@ namespace Chess
     {
         //board values
         static Point INIT = new Point(0, 0);
-        static Point LIMINT = new Point(840, 840);
-        static int BoardSquareLength = 105; //each square on the board is 105x105 pixels
-        static HashSet<Point> BOARD_COORDINATE = new HashSet<Point>();  // game board coordinate
-        static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>(); // this show where the pieces are
-        static List<Point> player1 = new List<Point>(); //2 list for each players pieces left
-        static List<Point> player2 = new List<Point>();
+        static Point LIMINT = new Point(1024, 1024);
+        static int BoardSquareLength = 128; //each square on the board is 128x128 pixels
+        private GameBoard gameBoard = new GameBoard();
+        //static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>(); // this show where the pieces are
         static Point selectPick = new Point(-1, 9999);  // the first mouse click
         static Point selectMove = new Point(-1, 9999);  // the second mouse click
-        static Side turn = Side.black;
+        //static Side turn = Side.black;
         static DateTime time;
+        Player playerOne = Player.White; //white
+        Player playerTwo = Player.Black; //black
         static int player1Lost = 0;
         static int player2Lost = 0;
         static int player1step = 0;
         static int player2step = 0;
+        int player1points = 0;
+        int player2points = 0;
         int x1 = -1; //this is horrible code, but its late, this is to hold the mouse input on where it clicked
         int y1 = -1;
         int x2 = -1;
         int y2 = -1;
-        int player1points = 0;
-        int player2points = 0;
 
         public Form1()
         {
             InitializeComponent();
-            BuildBoardCoordinate();
-            PiecesCoordinateInit();
+            PreparePieces();
         }
 
         // setting up pieces' coordinate base on the gameboard coordnate
-        private void PiecesCoordinateInit()
+        private void PreparePieces()
         {
-            GameBoard board = new GameBoard();
-            Player playerOne = new Player();
+            //game board init
+            gameBoard.Add(new Rook(playerOne), new Location(Rank.eight, File.a));
+            gameBoard.Add(new Knight(playerOne), new Location(Rank.eight, File.b));
+            gameBoard.Add(new Bishop(playerOne), new Location(Rank.eight, File.c));
+            gameBoard.Add(new Queen(playerOne), new Location(Rank.eight, File.d));
+            gameBoard.Add(new King(playerOne), new Location(Rank.eight, File.e));
+            gameBoard.Add(new Bishop(playerOne), new Location(Rank.eight, File.f));
+            gameBoard.Add(new Knight(playerOne), new Location(Rank.eight, File.g));
+            gameBoard.Add(new Rook(playerOne), new Location(Rank.eight, File.h));
+            gameBoard.Add(new Pawn(playerOne), new Location(Rank.seven, File.a));
+            gameBoard.Add(new Pawn(playerOne), new Location(Rank.seven, File.b));
+            gameBoard.Add(new Pawn(playerOne), new Location(Rank.seven, File.c));
+            gameBoard.Add(new Pawn(playerOne), new Location(Rank.seven, File.d));
+            gameBoard.Add(new Pawn(playerOne), new Location(Rank.seven, File.e));
+            gameBoard.Add(new Pawn(playerOne), new Location(Rank.seven, File.f));
+            gameBoard.Add(new Pawn(playerOne), new Location(Rank.seven, File.g));
+            gameBoard.Add(new Pawn(playerOne), new Location(Rank.seven, File.h));
 
-            board.Add(new King(playerOne, new Location(Ranks.one, Files.d)));
-            board.Add(new Queen(playerOne, new Location(Ranks.one, Files.c)));
-
-
-
-            // loop through the game boerd coordinate
-            foreach (var coord in BOARD_COORDINATE)
-            {
-                switch (coord.Y) 
-                {
-                    case 105: PIECES_CORRDINATE.Add(new Pawn(Side.black, coord)); player1.Add(coord); break;
-                    case 630: PIECES_CORRDINATE.Add(new Pawn(Side.White, coord)); player2.Add(coord); break;
-                    case 0: 
-                        {
-                            switch (coord.X)
-                            {
-                                case 0: PIECES_CORRDINATE.Add(new Rook(Side.black, coord)); player1.Add(coord); break;
-                                case 105: PIECES_CORRDINATE.Add(new Knight(Side.black, coord)); player1.Add(coord); break;
-                                case 210: PIECES_CORRDINATE.Add(new Bishop(Side.black, coord)); player1.Add(coord); break;
-                                case 315: PIECES_CORRDINATE.Add(new King(Side.black, coord)); player1.Add(coord); break;
-                                case 420: PIECES_CORRDINATE.Add(new Queen(Side.black, coord)); player1.Add(coord); break;
-                                case 525: PIECES_CORRDINATE.Add(new Bishop(Side.black, coord)); player1.Add(coord); break;
-                                case 630: PIECES_CORRDINATE.Add(new Knight(Side.black, coord)); player1.Add(coord); break;
-                                case 735: PIECES_CORRDINATE.Add(new Rook(Side.black, coord)); player1.Add(coord); break;
-                                default:
-                                    break;
-                            }
-                        } break;
-                    case 735:
-                        {
-                            switch (coord.X)
-                            {
-                                case 0: PIECES_CORRDINATE.Add(new Rook(Side.White, coord)); player2.Add(coord); break;
-                                case 105: PIECES_CORRDINATE.Add(new Knight(Side.White, coord)); player2.Add(coord); break;
-                                case 210: PIECES_CORRDINATE.Add(new Bishop(Side.White, coord)); player2.Add(coord); break;
-                                case 315: PIECES_CORRDINATE.Add(new King(Side.White, coord)); player2.Add(coord); break;
-                                case 420: PIECES_CORRDINATE.Add(new Queen(Side.White, coord)); player2.Add(coord); break;
-                                case 525: PIECES_CORRDINATE.Add(new Bishop(Side.White, coord)); player2.Add(coord); break;
-                                case 630: PIECES_CORRDINATE.Add(new Knight(Side.White, coord)); player2.Add(coord); break;
-                                case 735: PIECES_CORRDINATE.Add(new Rook(Side.White, coord)); player2.Add(coord); break;
-                                default:
-                                    break;
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        // This sets up the game board coordinate
-        private void BuildBoardCoordinate()
-        {
-            // game board start with (0, 0)
-            BOARD_COORDINATE.Add(INIT);
-            // loop through the coordinate of x
-            for(; INIT.X < LIMINT.X; INIT.X += BoardSquareLength)
-            {
-                INIT.Y = 0;
-                // loop through the coordinate of Y
-                for (; INIT.Y < LIMINT.Y; INIT.Y += BoardSquareLength)
-                {
-                    BOARD_COORDINATE.Add(INIT);
-                }
-            }
-            INIT = new Point(0, 0);
+            //player 2
+            gameBoard.Add(new Rook(  playerTwo), new Location(Rank.one, File.a));
+            gameBoard.Add(new Knight(playerTwo), new Location(Rank.one, File.b));
+            gameBoard.Add(new Bishop(playerTwo), new Location(Rank.one, File.c));
+            gameBoard.Add(new Queen( playerTwo), new Location(Rank.one, File.d));
+            gameBoard.Add(new King(  playerTwo), new Location(Rank.one, File.e));
+            gameBoard.Add(new Bishop(playerTwo), new Location(Rank.one, File.f));
+            gameBoard.Add(new Knight(playerTwo), new Location(Rank.one, File.g));
+            gameBoard.Add(new Rook(  playerTwo), new Location(Rank.one, File.h));
+            gameBoard.Add(new Pawn(playerTwo), new Location(Rank.two, File.a));
+            gameBoard.Add(new Pawn(playerTwo), new Location(Rank.two, File.b));
+            gameBoard.Add(new Pawn(playerTwo), new Location(Rank.two, File.c));
+            gameBoard.Add(new Pawn(playerTwo), new Location(Rank.two, File.d));
+            gameBoard.Add(new Pawn(playerTwo), new Location(Rank.two, File.e));
+            gameBoard.Add(new Pawn(playerTwo), new Location(Rank.two, File.f));
+            gameBoard.Add(new Pawn(playerTwo), new Location(Rank.two, File.g));
+            gameBoard.Add(new Pawn(playerTwo), new Location(Rank.two, File.h));
         }
 
         //draw the board
@@ -117,10 +81,12 @@ namespace Chess
         {
             using (SolidBrush sb = new SolidBrush(Color.White))
             {
-                foreach (var coord in BOARD_COORDINATE)
+                foreach (var coord in gameBoard.GetSquares())
                 {
-                    Rectangle rt = new Rectangle(coord.X, coord.Y, coord.X + BoardSquareLength, coord.Y + BoardSquareLength);
-                    //MessageBox.Show(coord.X.ToString() + ", " + coord.Y.ToString());
+                    int startY = (int)coord.Rank * BoardSquareLength;
+                    int startX = (int)coord.File * BoardSquareLength;
+
+                    Rectangle rt = new Rectangle(startX, startY, startX + BoardSquareLength, startY + BoardSquareLength);
                     g.FillRectangle(sb, rt); 
                     
                     if (sb.Color == Color.Black)
@@ -128,11 +94,57 @@ namespace Chess
                     else
                         sb.Color = Color.Black;
 
-                    if(coord.Y == LIMINT.Y - BoardSquareLength)
+                    if((int)coord.File == 7)
                         if (sb.Color == Color.Black)
                             sb.Color = Color.White;
                         else
                             sb.Color = Color.Black;
+
+                    int offsetx = 32;
+                    int offsety = 64;
+
+                    if (coord.Piece is Rook)
+                    {
+                        if(coord.Piece.Player == Player.White)
+                            g.DrawString("Rook", this.Font, Brushes.Red, new Point(startX + offsetx, startY + offsety));
+                        else
+                            g.DrawString("Rook", this.Font, Brushes.Blue, new Point(startX + offsetx, startY + offsety));
+                    }
+                    else if (coord.Piece is Knight)
+                    {
+                        if (coord.Piece.Player == Player.White)
+                            g.DrawString("Knight", this.Font, Brushes.Red, new Point(startX + offsetx, startY + offsety));
+                        else
+                            g.DrawString("Knight", this.Font, Brushes.Blue, new Point(startX + offsetx, startY + offsety));
+                    }
+                    else if (coord.Piece is Bishop)
+                    {
+                        if (coord.Piece.Player == Player.White)
+                            g.DrawString("Bishop", this.Font, Brushes.Red, new Point(startX + offsetx, startY + offsety));
+                        else
+                            g.DrawString("Bishop", this.Font, Brushes.Blue, new Point(startX + offsetx, startY + offsety));
+                    }
+                    else if (coord.Piece is King)
+                    {
+                        if (coord.Piece.Player == Player.White)
+                            g.DrawString("King", this.Font, Brushes.Red, new Point(startX + offsetx, startY + offsety));
+                        else
+                            g.DrawString("King", this.Font, Brushes.Blue, new Point(startX + offsetx, startY + offsety));
+                    }
+                    else if (coord.Piece is Queen)
+                    {
+                        if (coord.Piece.Player == Player.White)
+                            g.DrawString("Queen", this.Font, Brushes.Red, new Point(startX + offsetx, startY + offsety));
+                        else
+                            g.DrawString("Queen", this.Font, Brushes.Blue, new Point(startX + offsetx, startY + offsety));
+                    }
+                    else if (coord.Piece is Pawn)
+                    {
+                        if (coord.Piece.Player == Player.White)
+                            g.DrawString("Pawn", this.Font, Brushes.Red, new Point(startX + offsetx, startY + offsety));
+                        else
+                            g.DrawString("Pawn", this.Font, Brushes.Blue, new Point(startX + offsetx, startY + offsety));
+                    }
                 }
             }
         }
@@ -140,222 +152,127 @@ namespace Chess
         //Event to paint the board and set up the game
         private void Board_Paint(object sender, PaintEventArgs e)
         {
-            if (turn == Side.black)
-            {
-                PlayerTurnLabel.ForeColor = Color.Red;
-                PlayerTurnLabel.Text = "Red player's turn";
-            }
-            else
-            {
-                PlayerTurnLabel.ForeColor = Color.Blue;
-                PlayerTurnLabel.Text = "Blue player's turn";
-            }
+            //if (turn == Side.black)
+            //{
+            //    PlayerTurnLabel.ForeColor = Color.Red;
+            //    PlayerTurnLabel.Text = "Red player's turn";
+            //}
+            //else
+            //{
+            //    PlayerTurnLabel.ForeColor = Color.Blue;
+            //    PlayerTurnLabel.Text = "Blue player's turn";
+            //}
             Graphics g = e.Graphics;
             //set the game up
             DrawBoard(g);
-            DrawPieces(g);
-        }
-
-        // this method draw the pieces into the picture box
-        private void DrawPieces(Graphics g)
-        {
-            // loop through the pieces coordinate
-            foreach(var piece in PIECES_CORRDINATE)
-            { 
-                // switch depend on pieces' type
-                switch (piece.Type)
-                {
-                    // if pieces's type is Bishop, then.... and so on
-                    case Type.Bishop:
-                        {
-                            // checking for the pieces' side (black/white)
-                            // next couple if statements are doing the same job but with different pieces' type
-                            if (piece.Side == Side.black)
-                                g.DrawString("Bishop", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                            else
-                                g.DrawString("Bishop", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                        } 
-                        break;
-                    case Type.King:
-                        {
-                            if (piece.Side == Side.black)
-                                g.DrawString("King", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                            else
-                                g.DrawString("King", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                        }
-                        break;
-                    case Type.Knight:
-                        {
-                            if (piece.Side == Side.black)
-                                g.DrawString("Knight", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                            else
-                                g.DrawString("Knight", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                        }
-                        break;
-                    case Type.Pawn:
-                        {
-                            if (piece.Side == Side.black)
-                                g.DrawString("Pawn", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                            else
-                                g.DrawString("Pawn", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                        }
-                        break;
-                    case Type.Queen:
-                        {
-                            if (piece.Side == Side.black)
-                                g.DrawString("Queen", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                            else
-                                g.DrawString("Queen", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                        }
-                        break;
-                    case Type.Rook:
-                        {
-                            if (piece.Side == Side.black)
-                                g.DrawString("Rook", this.Font, Brushes.Red, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                            else
-                                g.DrawString("Rook", this.Font, Brushes.Blue, new Point(piece.Coordinate.X + 20, piece.Coordinate.Y + 50));
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
         }
 
         //When you click the board it will be able to move pieces to that location
         private void Board_Click(object sender, MouseEventArgs e)
         {
-            selectPick = selectMove;
-            selectMove = new Point(e.X / 105 * 105, e.Y / 105 * 105);
-            PieceMove();
             Graphics g = GameBoard.CreateGraphics();
-            DrawHighlight(e.X, e.Y, 0, BoardSquareLength, 0, BoardSquareLength, g);
+            DrawHighlight(e.X, e.Y, 0, 128, 0, 128, g);
         }
 
-        // method that control when the piece should move
-        private void PieceMove()
-        { 
-            bool sameside = false;
-            // first mouse click is the selectPick and the second mouse click is the selectMove
-            // in the meanwhile first click will be the second click
-            
-            // loop through the possible pieces' coordinate
-            foreach (var select in PIECES_CORRDINATE)
+        //draw a red highlight in square that is clicked
+        private void DrawHighlight(int x, int y, int xlowerbound, int xupperbound, int ylowerbound, int yupperbound, Graphics g)
+        {
+            if (x1 == -1)
             {
-                // while the selected grid has piece match with
-                if (select.Coordinate.X == selectPick.X && select.Coordinate.Y == selectPick.Y && turn == select.Side)
+                //Search through x the bounds to make sure its good
+                if (x >= xlowerbound && x <= xupperbound)
                 {
-                  
-
-                    if (select.Side == Side.black)
+                    //Search through y the bounds to make sure its good
+                    if (y >= ylowerbound && y <= yupperbound)
                     {
-                        foreach(var s in player1)
+                        Pen redPen = new Pen(Color.Red, 1);
+                        //draw the rectangle
+                        g.DrawRectangle(redPen, xlowerbound, ylowerbound, BoardSquareLength - 1, BoardSquareLength - 1);
+
+                        //save the cordinates to update next postion
+                        x1 = x;
+                        y1 = y;
+                    }
+                    else
+                    {
+                        //if not good, then it will shift one square down
+                        DrawHighlight(x, y, 0, 128, ylowerbound + 128, yupperbound + 128, g);
+                    }
+                }
+                else
+                {
+                    //if not good it will shift one square to the right
+                    DrawHighlight(x, y, xlowerbound + 128, xupperbound + 128, ylowerbound, yupperbound, g);
+                }
+            }
+            else
+            {
+                if (x2 == -1)
+                {
+                    //Search through x the bounds to make sure its good
+                    if (x >= xlowerbound && x <= xupperbound)
+                    {
+                        //Search through y the bounds to make sure its good
+                        if (y >= ylowerbound && y <= yupperbound)
                         {
-                            if (s.X == selectMove.X && s.Y == selectMove.Y)
-                            {
-                                sameside = true;
-                                break;
-                            }
+                            Pen GreenPen = new Pen(Color.Green, 1);
+                            //draw the rectangle
+                            g.DrawRectangle(GreenPen, xlowerbound, ylowerbound, BoardSquareLength - 1, BoardSquareLength - 1);
+
+                            //save the cordinates to update next postion
+                            x2 = x;
+                            y2 = y;
+
+                            //call code to update postions
+                            ////////////////////////////////////UpdatePiecePosition(x1, y1, x2, y2);
+                            //reset the original points
+                            x1 = -1;
+                            y1 = -1;
+                            x2 = -1;
+                            y2 = -1;
+                            //refresh the gameboard
+                            //GameBoard.Invalidate();
+                            //GameBoard.Update();
+                        }
+                        else
+                        {
+                            //if not good, then it will shift one square down
+                            DrawHighlight(x, y, 0, 128, ylowerbound + 128, yupperbound + 128, g);
                         }
                     }
                     else
                     {
-                        foreach (var s in player2)
-                        {
-                            if (s.X == selectMove.X && s.Y == selectMove.Y)
-                            {
-                                sameside = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    // selected piece move
-                    if (!sameside && select.move(selectMove))
-                    {
-                        if (player1step == 0)
-                            time = DateTime.Now;
-
-                        if (turn == Side.black)
-                        {
-                            turn = Side.White;
-                            ++player1step;
-                        }
-                        else
-                        {
-                            turn = Side.black;
-                            ++player2step;
-                        }
-
-                        if (select.Side == Side.black)
-                        {
-                            player1.Remove(selectPick);
-                            player1.Add(selectMove);
-                        }
-                        else
-                        {
-                            player2.Remove(selectPick);
-                            player2.Add(selectMove);
-                        }
-
-                        // check if the destination of the selected piece is occupy or not
-                        foreach (var remove in PIECES_CORRDINATE)
-                        {
-                            
-                            // if place is occupy
-                            if (remove.Coordinate.X == selectMove.X && remove.Coordinate.Y == selectMove.Y && remove.Side != select.Side)
-                            {
-                                if (remove.Type == Type.King)
-                                {
-                                    ClaimWinner(remove.Side);
-                                    return;
-                                }
-                                if (remove.Side == Side.black)
-                                {
-                                    player1.Remove(selectMove);
-                                    ++player1Lost;
-                                }
-                                else
-                                {
-                                    player2.Remove(selectMove);
-                                    ++player2Lost;
-                                }
-                                remove.Coordinate = new Point(-1, 9999);
-                                break;
-                            }
-                        }
-                        selectMove = new Point(-1, 9999);
-                        break;
+                        //if not good it will shift one square to the right
+                        DrawHighlight(x, y, xlowerbound + 128, xupperbound + 128, ylowerbound, yupperbound, g);
                     }
                 }
             }
-            GameBoard.Refresh();
         }
 
-        private void ClaimWinner( Side side)
+        private void ClaimWinner( )//Side side)
         {
-            if (side == Side.black)
-                MessageBox.Show("Blue player win");
-            else
-                MessageBox.Show("Red player win");
+            //if (side == Side.black)
+            //    MessageBox.Show("Blue player win");
+            //else
+            //    MessageBox.Show("Red player win");
 
-            MessageBox.Show("Red player lost " + player1Lost.ToString() + " pieces; Move " + player1step.ToString() + " steps\n" +
-                            "Blue player lost " + player2Lost.ToString() + " pieces; Move " + player2step.ToString() + " steps\n" +
-                            "Total time spended: " + (DateTime.Now - time).Hours.ToString() + " house, " + (DateTime.Now - time).Minutes.ToString() + " minutes, " +
-                            (DateTime.Now - time).Seconds.ToString() + " seconds, " + (DateTime.Now - time).Milliseconds.ToString() + " milliseconds, ");
+            //MessageBox.Show("Red player lost " + player1Lost.ToString() + " pieces; Move " + player1step.ToString() + " steps\n" +
+            //                "Blue player lost " + player2Lost.ToString() + " pieces; Move " + player2step.ToString() + " steps\n" +
+            //                "Total time spended: " + (DateTime.Now - time).Hours.ToString() + " house, " + (DateTime.Now - time).Minutes.ToString() + " minutes, " +
+            //                (DateTime.Now - time).Seconds.ToString() + " seconds, " + (DateTime.Now - time).Milliseconds.ToString() + " milliseconds, ");
 
-            player1Lost = 0;
-            player2Lost = 0;
-            player1step = 0;
-            player2step = 0;
-            turn = Side.black;
-            player1.Clear();
-            player2.Clear();
-            BOARD_COORDINATE.Clear();
-            PIECES_CORRDINATE.Clear();
-            BuildBoardCoordinate();
-            PiecesCoordinateInit();
-            GameBoard.Refresh();
+            //player1Lost = 0;
+            //player2Lost = 0;
+            //player1step = 0;
+            //player2step = 0;
+            //turn = Side.black;
+            //player1.Clear();
+            //player2.Clear();
+            //BOARD_COORDINATE.Clear();
+            //PIECES_CORRDINATE.Clear();
+            //BuildBoardCoordinate();
+            //PiecesCoordinateInit();
+            //GameBoard.Refresh();
         }
 
         // refreshing the game board while the use maximized the window
@@ -397,7 +314,6 @@ namespace Chess
             ResetButton.Visible = false;
 
             //reset the gameboard
-            PiecesCoordinateInit();
             GameBoard.Refresh();
         }
     }
