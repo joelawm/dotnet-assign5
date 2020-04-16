@@ -12,10 +12,6 @@ namespace Chess
         static Point LIMINT = new Point(1024, 1024);
         static int BoardSquareLength = 128; //each square on the board is 128x128 pixels
         private GameBoard gameBoard = new GameBoard();
-        //static HashSet<Piece> PIECES_CORRDINATE = new HashSet<Piece>(); // this show where the pieces are
-        static Point selectPick = new Point(-1, 9999);  // the first mouse click
-        static Point selectMove = new Point(-1, 9999);  // the second mouse click
-        //static Side turn = Side.black;
         static DateTime time;
         Player playerOne = Player.White; //white
         Player playerTwo = Player.Black; //black
@@ -226,13 +222,13 @@ namespace Chess
                             //call code to update postions
                             ////////////////////////////////////UpdatePiecePosition(x1, y1, x2, y2);
                             //reset the original points
+                            MessageBox.Show(x1 + " " + y1 + " " + x2 + " " + y2);
                             x1 = -1;
                             y1 = -1;
                             x2 = -1;
                             y2 = -1;
                             //refresh the gameboard
-                            //GameBoard.Invalidate();
-                            //GameBoard.Update();
+                            GameBoard.Refresh();
                         }
                         else
                         {
