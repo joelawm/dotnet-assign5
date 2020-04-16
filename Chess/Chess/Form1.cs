@@ -96,8 +96,8 @@ namespace Chess
                         else
                             sb.Color = Color.Black;
 
-                    int offsetx = 32;
-                    int offsety = 64;
+                    int offsetx = BoardSquareLength / 4;
+                    int offsety = BoardSquareLength / 2;
 
                     if (coord.Piece is Rook)
                     {
@@ -159,7 +159,7 @@ namespace Chess
             //    PlayerTurnLabel.Text = "Blue player's turn";
             //}
             Graphics g = e.Graphics;
-            //set the game up
+            //draw the game board and pieces
             DrawBoard(g);
         }
 
@@ -167,108 +167,85 @@ namespace Chess
         private void Board_Click(object sender, MouseEventArgs e)
         {
             Graphics g = GameBoard.CreateGraphics();
-            DrawHighlight(e.X, e.Y, 0, 128, 0, 128, g);
+            DrawHighlight(e.X, e.Y, g);
         }
 
         //draw a red highlight in square that is clicked
-        private void DrawHighlight(int x, int y, int xlowerbound, int xupperbound, int ylowerbound, int yupperbound, Graphics g)
+        private void DrawHighlight(int x, int y, Graphics g)
         {
-            if (x1 == -1)
+            foreach (var coord in gameBoard.GetSquares())
             {
-                //Search through x the bounds to make sure its good
-                if (x >= xlowerbound && x <= xupperbound)
-                {
-                    //Search through y the bounds to make sure its good
-                    if (y >= ylowerbound && y <= yupperbound)
-                    {
-                        Pen redPen = new Pen(Color.Red, 1);
-                        //draw the rectangle
-                        g.DrawRectangle(redPen, xlowerbound, ylowerbound, BoardSquareLength - 1, BoardSquareLength - 1);
+                int startX = (int)coord.File * BoardSquareLength;
+                int startY = (int)coord.Rank * BoardSquareLength;
 
-                        //save the cordinates to update next postion
-                        x1 = x;
-                        y1 = y;
-                    }
-                    else
+                if (x1 == -1)
+                {
+                    //Search through x the bounds to make sure its good
+                    if (x >= startX && x <= startX + BoardSquareLength)
                     {
-                        //if not good, then it will shift one square down
-                        DrawHighlight(x, y, 0, 128, ylowerbound + 128, yupperbound + 128, g);
+                        //Search through y the bounds to make sure its good
+                        if (y >= startY && y <= startY + BoardSquareLength)
+                        {
+                            Pen redPen = new Pen(Color.Red, 1);
+                            //draw the rectangle
+                            g.DrawRectangle(redPen, startX, startY, BoardSquareLength - 1, BoardSquareLength - 1);
+
+                            //save the cordinates to update next postion
+                            x1 = (int)coord.File;
+                            y1 = (int)coord.Rank;
+                        }
                     }
                 }
                 else
                 {
-                    //if not good it will shift one square to the right
-                    DrawHighlight(x, y, xlowerbound + 128, xupperbound + 128, ylowerbound, yupperbound, g);
-                }
-            }
-            else
-            {
-                if (x2 == -1)
-                {
-                    //Search through x the bounds to make sure its good
-                    if (x >= xlowerbound && x <= xupperbound)
+                    if (x2 == -1)
                     {
-                        //Search through y the bounds to make sure its good
-                        if (y >= ylowerbound && y <= yupperbound)
+                        //Search through x the bounds to make sure its good
+                        if (x >= startX && x <= startX + BoardSquareLength)
                         {
-                            Pen GreenPen = new Pen(Color.Green, 1);
-                            //draw the rectangle
-                            g.DrawRectangle(GreenPen, xlowerbound, ylowerbound, BoardSquareLength - 1, BoardSquareLength - 1);
+                            //Search through y the bounds to make sure its good
+                            if (y >= startY && y <= startY + BoardSquareLength)
+                            {
+                                Pen GreenPen = new Pen(Color.Green, 1);
+                                //draw the rectangle
+                                g.DrawRectangle(GreenPen, startX, startY, BoardSquareLength - 1, BoardSquareLength - 1);
 
-                            //save the cordinates to update next postion
-                            x2 = x;
-                            y2 = y;
+                                //save the cordinates to update next postion
+                                x2 = (int)coord.File;
+                                y2 = (int)coord.Rank;
 
-                            //call code to update postions
-                            ////////////////////////////////////UpdatePiecePosition(x1, y1, x2, y2);
-                            //reset the original points
-                            MessageBox.Show(x1 + " " + y1 + " " + x2 + " " + y2);
-                            x1 = -1;
-                            y1 = -1;
-                            x2 = -1;
-                            y2 = -1;
-                            //refresh the gameboard
-                            GameBoard.Refresh();
-                        }
-                        else
-                        {
-                            //if not good, then it will shift one square down
-                            DrawHighlight(x, y, 0, 128, ylowerbound + 128, yupperbound + 128, g);
+                                if(x1 == x2 && y1 == y2)
+                                {
+                                    ErrorMessageBox.Text = "Please choose a move point that is different from the first.";
+                                    x1 = -1;
+                                    y1 = -1;
+                                    x2 = -1;
+                                    y2 = -1;
+                                    GameBoard.Refresh();
+                                    break;
+                                }
+                                else
+                                {
+                                    //call code to update postions
+                                    ////////////////////////////////////UpdatePiecePosition(x1, y1, x2, y2);
+                                    ///
+                                    //also make sure to switch sides in here
+
+                                    //reset the original points
+                                    MessageBox.Show(x1 + " " + y1 + " " + x2 + " " + y2);
+                                    x1 = -1;
+                                    y1 = -1;
+                                    x2 = -1;
+                                    y2 = -1;
+                                    //refresh the gameboard
+                                    GameBoard.Refresh();
+                                    break;
+                                }
+                            }
                         }
                     }
-                    else
-                    {
-                        //if not good it will shift one square to the right
-                        DrawHighlight(x, y, xlowerbound + 128, xupperbound + 128, ylowerbound, yupperbound, g);
-                    }
                 }
             }
-        }
-
-        private void ClaimWinner( )//Side side)
-        {
-            //if (side == Side.black)
-            //    MessageBox.Show("Blue player win");
-            //else
-            //    MessageBox.Show("Red player win");
-
-            //MessageBox.Show("Red player lost " + player1Lost.ToString() + " pieces; Move " + player1step.ToString() + " steps\n" +
-            //                "Blue player lost " + player2Lost.ToString() + " pieces; Move " + player2step.ToString() + " steps\n" +
-            //                "Total time spended: " + (DateTime.Now - time).Hours.ToString() + " house, " + (DateTime.Now - time).Minutes.ToString() + " minutes, " +
-            //                (DateTime.Now - time).Seconds.ToString() + " seconds, " + (DateTime.Now - time).Milliseconds.ToString() + " milliseconds, ");
-
-            //player1Lost = 0;
-            //player2Lost = 0;
-            //player1step = 0;
-            //player2step = 0;
-            //turn = Side.black;
-            //player1.Clear();
-            //player2.Clear();
-            //BOARD_COORDINATE.Clear();
-            //PIECES_CORRDINATE.Clear();
-            //BuildBoardCoordinate();
-            //PiecesCoordinateInit();
-            //GameBoard.Refresh();
         }
 
         // refreshing the game board while the use maximized the window
@@ -288,12 +265,12 @@ namespace Chess
             if(player1points > player2points)
             {
                 WinnerLabel.Visible = true;
-                WinnerLabel.Text = "Player 1 Wins!!!";
+                WinnerLabel.Text = "Blue Player Wins!!!";
             }
             else if(player2points > player1points)
             {
                 WinnerLabel.Visible = true;
-                WinnerLabel.Text = "Player 2 Wins!!!";
+                WinnerLabel.Text = "Red Player Wins!!!";
             }
             else
             {
@@ -301,6 +278,17 @@ namespace Chess
                 WinnerLabel.Text = "It was a tie!!!";
             }
             ResetButton.Visible = true;
+
+            ErrorMessageBox.Text = "Red player lost " + player1Lost.ToString() + " pieces; Move " + player1step.ToString() + " steps\n" +
+                            "Blue player lost " + player2Lost.ToString() + " pieces; Move " + player2step.ToString() + " steps\n" +
+                            "Total time spended: " + (DateTime.Now - time).Hours.ToString() + " house, " + (DateTime.Now - time).Minutes.ToString() + " minutes, " +
+                           (DateTime.Now - time).Seconds.ToString() + " seconds, " + (DateTime.Now - time).Milliseconds.ToString() + " milliseconds, ";
+
+            player1Lost = 0;
+            player2Lost = 0;
+            player1step = 0;
+            player2step = 0;
+            GameBoard.Refresh();
         }
 
         private void ResetButton_Click(object sender, EventArgs e)
@@ -310,6 +298,7 @@ namespace Chess
             ResetButton.Visible = false;
 
             //reset the gameboard
+            ErrorMessageBox.Clear();
             GameBoard.Refresh();
         }
     }
