@@ -12,13 +12,9 @@ namespace Chess
         public Bishop(Player player) : base(player, Type.Bishop)
         {
             //Queen can move in any direction any number of spaces in open direction
-            base.Ranks = new int[] { 1, 2, 3, 4, 5, 6, 7, -1, -2, -3, -4, -5, -6, -7, -1, -2, -3, -4, -5, -6 - 7, 1, 2, 3, 4, 5, 6, 7 };
-            base.Files = new int[] { 1, 2, 3, 4, 5, 6, 7, -1, -2, -3, -4, -5, -6, -7, 1, 2, 3, 4, 5, 6, 7, -1, -2, -3, -4, -5, -6, -7};
-        }
-
-        public override bool IsValidMove(GameBoard board, Location to)
-        {
-            return base.IsValidMove(board, to);
+            base.Rank = new int[] { 1, 2, 3, 4, 5, 6, 7, -1, -2, -3, -4, -5, -6, -7, -1, -2, -3, -4, -5, -6, - 7, 1, 2, 3, 4, 5, 6, 7 };
+            base.File = new int[] { 1, 2, 3, 4, 5, 6, 7, -1, -2, -3, -4, -5, -6, -7, 1, 2, 3, 4, 5, 6, 7, -1, -2, -3, -4, -5, -6, -7};
+            base.numberofdirections = 4;
         }
     }
 }

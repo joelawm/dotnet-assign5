@@ -33,7 +33,6 @@
             this.PlayerTurnLabel = new System.Windows.Forms.Label();
             this.ErrorMessageBox = new System.Windows.Forms.TextBox();
             this.WinnerLabel = new System.Windows.Forms.Label();
-            this.ResetButton = new System.Windows.Forms.Button();
             this.ControlsGroupBox = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.GameBoard)).BeginInit();
             this.ControlsGroupBox.SuspendLayout();
@@ -63,7 +62,7 @@
             // PlayerTurnLabel
             // 
             this.PlayerTurnLabel.AutoSize = true;
-            this.PlayerTurnLabel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.PlayerTurnLabel.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.PlayerTurnLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.PlayerTurnLabel.ForeColor = System.Drawing.Color.RoyalBlue;
             this.PlayerTurnLabel.Location = new System.Drawing.Point(6, 45);
@@ -93,27 +92,14 @@
             this.WinnerLabel.Text = "Player # Won";
             this.WinnerLabel.Visible = false;
             // 
-            // ResetButton
-            // 
-            this.ResetButton.Location = new System.Drawing.Point(10, 141);
-            this.ResetButton.Margin = new System.Windows.Forms.Padding(2);
-            this.ResetButton.Name = "ResetButton";
-            this.ResetButton.Size = new System.Drawing.Size(101, 32);
-            this.ResetButton.TabIndex = 5;
-            this.ResetButton.Text = "Reset";
-            this.ResetButton.UseVisualStyleBackColor = true;
-            this.ResetButton.Visible = false;
-            this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
-            // 
             // ControlsGroupBox
             // 
             this.ControlsGroupBox.Controls.Add(this.SurrenderButton);
-            this.ControlsGroupBox.Controls.Add(this.ResetButton);
             this.ControlsGroupBox.Controls.Add(this.PlayerTurnLabel);
             this.ControlsGroupBox.Controls.Add(this.WinnerLabel);
             this.ControlsGroupBox.Location = new System.Drawing.Point(1049, 12);
             this.ControlsGroupBox.Name = "ControlsGroupBox";
-            this.ControlsGroupBox.Size = new System.Drawing.Size(200, 178);
+            this.ControlsGroupBox.Size = new System.Drawing.Size(200, 135);
             this.ControlsGroupBox.TabIndex = 6;
             this.ControlsGroupBox.TabStop = false;
             this.ControlsGroupBox.Text = "Controls";
@@ -144,7 +130,6 @@
         private System.Windows.Forms.Label PlayerTurnLabel;
         private System.Windows.Forms.TextBox ErrorMessageBox;
         private System.Windows.Forms.Label WinnerLabel;
-        private System.Windows.Forms.Button ResetButton;
         private System.Windows.Forms.GroupBox ControlsGroupBox;
     }
 }
